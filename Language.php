@@ -32,7 +32,7 @@ Class Language implements HTTPHeader {
 			$this->language = $language;
 		}
 		else {
-			die("Unsupported HTTP status {$language}");
+			die("Unsupported HTTP Content-Language {$language}");
 		}
 
 		if($send) {
