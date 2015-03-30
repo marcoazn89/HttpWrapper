@@ -5,7 +5,7 @@ Class WWWAuthenticate implements HTTPHeader {
 
 	public $authenticate;
 	
-	public function __construct($type = 'basic', $send = false, Array $other = null) {
+	public function __construct($type = 'basic', Array $other = null, $send = false) {
 		$this->authenticate = $type;
 
 		if( ! is_null($other)) {
