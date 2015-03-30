@@ -47,13 +47,8 @@ Class ContentType implements HTTPHeader {
 	public $content;
 	
 	public function __construct($content, $send = false) {
-		if(isset($content)) {
-			$this->content = $content;
-		}
-		else {
-			die("Unsupported HTTP Content-Type {$content}");
-		}
-
+		$this->content = $content;
+		
 		if($send) {
 			$this->sendHeader();
 		}

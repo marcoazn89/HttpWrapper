@@ -28,13 +28,8 @@ Class Language implements HTTPHeader {
 	public $language;
 	
 	public function __construct($language, $send = false) {
-		if(isset($language)) {
-			$this->language = $language;
-		}
-		else {
-			die("Unsupported HTTP Content-Language {$language}");
-		}
-
+		$this->language = $language;
+		
 		if($send) {
 			$this->sendHeader();
 		}
