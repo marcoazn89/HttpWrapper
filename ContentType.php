@@ -51,7 +51,7 @@ Class ContentType implements HTTPHeader {
 			$this->content = $content;
 		}
 		else {
-			die("Unsupported HTTP status {$content}");
+			die("Unsupported HTTP Content-Type {$content}");
 		}
 
 		if($send) {
