@@ -1,6 +1,9 @@
 <?php
+namespace HTTP\response;
+
 require_once('HttpHeader.php');
 
+use HTTP\response\HTTPHeader;
 class CacheControl implements HTTPHeader {
 
 	const CACHE_PUBLIC = 'public';
