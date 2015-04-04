@@ -1,12 +1,20 @@
 <?php
-require_once('Status.php');
-require_once('ContentType.php');
-require_once('Language.php');
-require_once('WWWAuthenticate.php');
-require_once('CacheControl.php');
+namespace HTTP;
 
-Class HTTP {
+use HTTP\response\Status;
+use HTTP\response\ContentType;
+use HTTP\response\Language;
+use HTTP\response\WWWAuthenticate;
+use HTTP\response\CacheControl;
+use HTTP\request\AcceptType;
+use HTTP\support\TypeSupport;
+use HTTP\support\ContentSupport;
+use HTTP\support\LanguageSupport;
+use HTTP\ContentNegotiation;
+
+class HTTP {
 	private static $headers = array();
+	private static $body = '';
 
 	public static function status($code, $init = false) {
 		if($init) {
@@ -26,9 +34,43 @@ Class HTTP {
 		}
 	}
 
+	public static function negotiateContentType($strongNegotiation = false) {
+		$negotiation = ContentNegotiation::negotiate(AcceptType::getContent(), TypeSupport::getSupport());
+
+		$content = '';
+
+		if(count($negotiation) > 0) {
+			$content = $negotiation[0];
+		}
+		else {
+			if($strongNegotiation) {
+				self::fail();
+			}
+			else {
+				$content = TypeSupport::getSupport();
+				$content = $content[0];
+			}
+		}
+
+		return $content;
+	}
+
+	public static function fail($statusCode) {
+		$supported = TypeSupport::getSupport();
+		$clientSupport = AcceptType::getContent();
+
+		$supported = implode(',', $supported);
+		$clientSupport = implode(',',$clientSupport);
+
+		self::status(406);
+		self::contentType(ContentType::TEXT);
+		self::body("NOT SUPPORTED\nThis server does not support {$supported}.\nSupported formats: {$clientSupport}");
+		self::sendResponse();
+	}
+
 	public static function language($language, $init = false) {
 		if($init) {
-			return new ContentType($language, $init);
+			return new Language($language, $init);
 		}
 		else {
 			array_push(self::$headers, new Language($language, $init));
@@ -53,7 +95,15 @@ Class HTTP {
 		}
 	}
 
+	public static function body($content) {
+		self::$body = $content;
+	}
+
 	public static function sendResponse() {
+		if( ! empty(self::$body)) {
+			echo self::$body;
+		}
+
 		foreach(self::$headers as $header) {
 			$header->sendHeader();
 		}
