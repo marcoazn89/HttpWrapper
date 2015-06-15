@@ -1,12 +1,7 @@
 <?php
-namespace HTTP\response;
+namespace HTTP\Response;
 
-require_once('HttpHeader.php');
-
-use HTTP\response\HTTPHeader;
-use Exception;
-
-class Status extends HTTPHeader {
+class Status extends Header {
 
 	public $status = array(
 		200	=> 'OK',
@@ -61,7 +56,7 @@ class Status extends HTTPHeader {
 			$this->message = $this->status[$statusCode];
 		}
 		else {
-			$e = new Exception();
+			$e = new \Exception();
 			error_log("Status Code {$statusCode} is not valid, defaulting to 500. Stack Trace: {$e->getTraceAsString()}");
 			$this->code = 500;
 			$this->message = $this->status[$this->code];

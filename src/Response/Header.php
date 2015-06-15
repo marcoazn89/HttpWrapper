@@ -1,7 +1,7 @@
 <?php
-namespace HTTP\response;
+namespace HTTP\Response;
 
-abstract class HTTPHeader {
+abstract class Header {
 	protected $headerString = '';
 
 	//Singleton Pattern: Can't create an instance
