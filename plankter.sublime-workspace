@@ -136,22 +136,19 @@
 	"buffers":
 	[
 		{
-			"contents": "<?php\nnamespace HTTP\\response;\n\nrequire_once('HttpHeader.php');\n\nuse HTTP\\response\\HTTPHeader;\n\nclass ContentType extends HTTPHeader {\n\n	const ADOBE_SHOCKWAVE = 'application/x-director';\n	const ADOBE_FLASH = 'application/x-shockwave-flash';\n	const AVI = 'video/x-msvideo';\n	const BINARY_DATA = 'application/octet-stream';\n	const BMP = 'image/bmp';\n	const BZIP = 'application/x-bzip';\n	const BZIP_2 = 'application/x-bzip2';\n	const C_FILE = 'text/x-c';\n	const CSS = 'text/css';\n	const FLASH_VIDEO = 'video/x-flv';\n	const FLASH_VIDEO_4 = 'video/x-f4v';\n	const GIF = 'image/gif';\n	const HTML = 'text/html';\n	const ICON_IMAGE = 'image/x-icon';\n	const JAVA_FILE ='text/x-java-source,java';\n	const JSON = 'application/json';\n	const JPEG_IMAGE = 'image/jpeg';\n	const JPEG_VIDEO = 'video/jpeg';\n	const MPEG_4 = 'application/mp4';\n	const MPEG_AUDIO = 'audio/mpeg';\n	const MPEG_VIDEO = 'video/mpeg';\n	const MPEG_AUDIO_4 = 'audio/mp4';\n	const MPEG_VIDEO_4 = 'video/mp4';\n	const OOG = 'application/ogg';\n	const OOG_AUDIO = 'audio/ogg';\n	const OOG_VIDEO = 'video/ogg';\n	const PHOTOSHOP_IMAGE = 'image/vnd.adobe.photoshop';\n	const PNG = 'image/png';\n	const QUICKTIME_VIDEO = 'video/quicktime';\n	const RAR = 'application/x-rar-compressed';\n	const SGI_MOVIE = 'video/x-sgi-movie';\n	const TAR = 'application/x-tar';\n	const TEXT = 'text/plain';\n	const VCARD = 'text/x-vcard';\n	const WAV = 'audio/x-wav';\n	const WMV = 'video/x-ms-wmv';\n	const XHTML = 'application/xhtml+xml';\n	const XML = 'application/xml';\n	const ZIP = 'application/zip';\n	const ZIP_7 = 'application/x-7z-compressed';\n\n	public $content;\n\n	public function set($content, $send = false) {\n		$this->content = $content;\n		\n		$this->headerString = \"Content-Type: {$this->content}\";\n\n		if($send) {\n			$this->sendHeader();\n		}\n	}\n}\n",
-			"file": "response/ContentType.php",
-			"file_size": 1834,
-			"file_write_time": 130752466495662659,
-			"settings":
-			{
-				"buffer_size": 1772,
-				"line_ending": "Windows"
-			}
-		},
-		{
 			"file": "src/Message.php",
 			"settings":
 			{
-				"buffer_size": 3316,
+				"buffer_size": 3400,
 				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "http.php",
+			"settings":
+			{
+				"buffer_size": 2834,
+				"line_ending": "Windows"
 			}
 		},
 		{
@@ -272,6 +269,7 @@
 	],
 	"file_history":
 	[
+		"/C/xampp/htdocs/plankter/response/ContentType.php",
 		"/C/xampp/htdocs/plankter/http.php",
 		"/C/xampp/htdocs/talentinc/talentinc-ads/api/application/config/config.php",
 		"/C/xampp/htdocs/talentinc/talentinc-ads/admin/app.js",
@@ -398,8 +396,7 @@
 		"/C/xampp/htdocs/talentinc/talentinc-ads/admin/app/js/partials/ad_detail.html",
 		"/C/xampp/htdocs/talentinc/talentinc-ads/admin/api/application/controllers/Restful_controller.php",
 		"/C/xampp/htdocs/talentinc/talentinc-ads/admin/api/application/controllers/traits/relationships.php",
-		"/C/xampp/htdocs/talentinc/talentinc-ads/admin/app/js/partials/ad-detail.html",
-		"/C/xampp/htdocs/talentinc/talentinc-ads/.phpintel/index"
+		"/C/xampp/htdocs/talentinc/talentinc-ads/admin/app/js/partials/ad-detail.html"
 	],
 	"find":
 	{
@@ -474,16 +471,16 @@
 	"groups":
 	[
 		{
-			"selected": 1,
+			"selected": 2,
 			"sheets":
 			[
 				{
 					"buffer": 0,
-					"file": "response/ContentType.php",
+					"file": "src/Message.php",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 1772,
+						"buffer_size": 3400,
 						"regions":
 						{
 						},
@@ -559,37 +556,36 @@
 							"incomplete_sync": null,
 							"remote_loading": false,
 							"synced": false,
-							"syntax": "Packages/PHP/PHP.tmLanguage",
+							"syntax": "Packages/HTML/HTML.tmLanguage",
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 1,
+					"stack_index": 4,
 					"type": "text"
 				},
 				{
 					"buffer": 1,
-					"file": "src/Message.php",
+					"file": "http.php",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 3316,
+						"buffer_size": 2834,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								444,
-								444
+								408,
+								408
 							]
 						],
 						"settings":
 						{
 							"BracketHighlighterBusy": false,
-							"auto_complete": false,
 							"bh_regions":
 							[
 								"bh_round",
@@ -651,14 +647,14 @@
 							"incomplete_sync": null,
 							"remote_loading": false,
 							"synced": false,
-							"syntax": "Packages/HTML/HTML.tmLanguage",
+							"syntax": "Packages/PHP/PHP.tmLanguage",
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 0,
+					"stack_index": 3,
 					"type": "text"
 				},
 				{
@@ -749,7 +745,7 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 2,
+					"stack_index": 0,
 					"type": "text"
 				},
 				{
@@ -765,8 +761,8 @@
 						"selection":
 						[
 							[
-								1413,
-								1413
+								292,
+								292
 							]
 						],
 						"settings":
@@ -838,10 +834,10 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 450.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 3,
+					"stack_index": 2,
 					"type": "text"
 				},
 				{
@@ -933,7 +929,7 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 6,
+					"stack_index": 5,
 					"type": "text"
 				},
 				{
@@ -949,8 +945,8 @@
 						"selection":
 						[
 							[
-								525,
-								525
+								360,
+								360
 							]
 						],
 						"settings":
@@ -1026,13 +1022,13 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 5,
+					"stack_index": 1,
 					"type": "text"
 				},
 				{
 					"buffer": 6,
 					"file": "vendor/psr/http-message/src/ResponseInterface.php",
-					"semi_transient": true,
+					"semi_transient": false,
 					"settings":
 					{
 						"buffer_size": 2589,
@@ -1042,8 +1038,8 @@
 						"selection":
 						[
 							[
-								17,
-								33
+								1076,
+								1077
 							]
 						],
 						"settings":
@@ -1118,7 +1114,7 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 4,
+					"stack_index": 6,
 					"type": "text"
 				}
 			]
@@ -1180,6 +1176,14 @@
 		"last_filter": "",
 		"selected_items":
 		[
+			[
+				"header",
+				"src\\Response\\Header.php"
+			],
+			[
+				"http",
+				"http.php"
+			],
 			[
 				"conte",
 				"response\\ContentType.php"
@@ -1683,14 +1687,6 @@
 			[
 				"en",
 				"application\\controllers\\core\\entity.php"
-			],
-			[
-				"video",
-				"application\\controllers\\entities\\video.php"
-			],
-			[
-				"relation",
-				"application\\controllers\\traits\\relationships.php"
 			]
 		],
 		"width": 0.0
@@ -1698,16 +1694,16 @@
 	"select_project":
 	{
 		"height": 625.0,
-		"last_filter": "pla",
+		"last_filter": "",
 		"selected_items":
 		[
 			[
-				"pla",
-				"C:\\xampp\\htdocs\\plankter\\plankter.sublime-project"
+				"",
+				"C:\\xampp\\htdocs\\talentinc\\resume-parsing\\resume-parsing.sublime-project"
 			],
 			[
-				"",
-				"C:\\xampp\\htdocs\\neurostash-new\\neurostash-new.sublime-project"
+				"pla",
+				"C:\\xampp\\htdocs\\plankter\\plankter.sublime-project"
 			],
 			[
 				"neurostash",

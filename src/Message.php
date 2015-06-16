@@ -1,8 +1,6 @@
 <?php
 namespace HTTP;
 
-require '../vendor/autoload.php';
-
 class Message implements \Psr\Http\Message\ResponseInterface {
 	private static $headers = array();
 	private static $body = '';
