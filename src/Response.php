@@ -21,8 +21,6 @@ class Response implements \Psr\Http\Message\ResponseInterface, Response\Response
 		if( ! array_key_exists('status', $this->headers)) {
 			$this->status = Response\Status::getInstance()->set();
 		}
-
-		$this->body = fopen('php://temp', 'r+');
 	}
 
 	public function status($code, $init = false) {

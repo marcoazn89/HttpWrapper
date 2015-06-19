@@ -1,7 +1,11 @@
 <?php
 namespace HTTP\response;
 
-class ContentType extends HTTPHeader {
+require_once('HttpHeader.php');
+
+use HTTP\response\HTTPHeader;
+
+class ContentLength extends HTTPHeader {
 
 	const ADOBE_SHOCKWAVE = 'application/x-director';
 	const ADOBE_FLASH = 'application/x-shockwave-flash';
@@ -44,13 +48,13 @@ class ContentType extends HTTPHeader {
 	const ZIP = 'application/zip';
 	const ZIP_7 = 'application/x-7z-compressed';
 
-	public $values;
+	public $content;
 
 	public function getName() {
-		return 'Content-Type';
+		return 'Content-Length';
 	}
 
 	protected function setDefaults() {
-		$this->values[] = self::HTML;
+		$this->values[] = 0;
 	}
 }
