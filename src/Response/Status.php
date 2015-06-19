@@ -1,10 +1,13 @@
 <?php
 namespace HTTP\Response;
 
-class Status extends Header {
+class Status {
+	const CODE200 = 200;
+	const CODE404 = 404;
+	const CODE500 = 500;
 
 	public $status = array(
-		200	=> 'OK',
+		self::CODE200	=> 'OK',
 		201	=> 'Created',
 		202	=> 'Accepted',
 		203	=> 'Non-Authoritative Information',
@@ -23,7 +26,7 @@ class Status extends Header {
 		400	=> 'Bad Request',
 		401	=> 'Unauthorized',
 		403	=> 'Forbidden',
-		404	=> 'Not Found',
+		self::CODE404	=> 'Not Found',
 		405	=> 'Method Not Allowed',
 		406	=> 'Not Acceptable',
 		407	=> 'Proxy Authentication Required',
@@ -39,7 +42,7 @@ class Status extends Header {
 		417	=> 'Expectation Failed',
 		422	=> 'Unprocessable Entity',
 
-		500	=> 'Internal Server Error',
+		self::CODE500	=> 'Internal Server Error',
 		501	=> 'Not Implemented',
 		502	=> 'Bad Gateway',
 		503	=> 'Service Unavailable',
@@ -47,27 +50,85 @@ class Status extends Header {
 		505	=> 'HTTP Version Not Supported'
 		);
 
-	public $code;
-	public $message;
+	protected $protocol = '1.1';
+	protected $code = self::CODE200;
+	protected $message = 'OK';
 
-	public function set($statusCode = 200, $send = false) {
-		if(array_key_exists($statusCode, $this->status)) {
-			$this->code = $statusCode;
-			$this->message = $this->status[$statusCode];
+	public function set($code = self::CODE200, $protocol = '1.1') {
+		$this->protocol = $protocol;
+		$this->setCode($code);
+		$this->setMessage($this->status[$code]);
+
+		return $this;
+	}
+
+	public function getString() {
+		return "HTTP/{$this->protocol} {$this->code} {$this->message}";
+	}
+
+	public function getCode() {
+		return $this->code;
+	}
+
+	public function setCode($code = self::CODE200) {
+		if(array_key_exists($code, $this->status)) {
+			$this->code = $code;
+			$this->message = $this->status[$code];
+
+			return $this;
 		}
 		else {
-			$e = new \Exception();
-			error_log("Status Code {$statusCode} is not valid, defaulting to 500. Stack Trace: {$e->getTraceAsString()}");
-			$this->code = 500;
-			$this->message = $this->status[$this->code];
-			$this->sendHeader();
-			exit(1);
+			throw new E\xception("Unkown HTTP response code {$code}", 1);
+		}
+	}
+
+	public function getProtocol() {
+		return $this->protocol;
+	}
+
+	public function setProtocol($protocol = '1.1') {
+		if(is_string($protocol)) {
+			$this->protocol = $protocol;
+
+			return $this;
+		}
+		else {
+			throw new \Exception("Invalid protocol {$protocol}", 1);
+		}
+	}
+
+	public function setMessage($message = 'OK') {
+		$this->message = $message;
+
+		return $this;
+	}
+
+	public function getMessage() {
+		return $this->message;
+	}
+
+	public function send() {
+		header($this->getString());
+	}
+
+	//Singleton Pattern: Can't create an instance
+	final protected function __construct() {}
+	//Singleton Pattern: Can't clone
+	final protected function __clone() {}
+	//Singleton Pattern: Can't deserialize
+	final protected function __wakeup() {}
+
+	/**
+	 * Get the header instance
+	 * @return HttpHeader
+	 */
+	final public static function getInstance() {
+		static $instance = null;
+
+		if(is_null($instance)) {
+			$instance = new static();
 		}
 
-		$this->headerString = "{$_SERVER['SERVER_PROTOCOL']} {$this->code} {$this->message}";
-
-		if($send) {
-			$this->sendHeader();
-		}
+		return $instance;
 	}
 }

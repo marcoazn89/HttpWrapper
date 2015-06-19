@@ -2,30 +2,63 @@
 namespace HTTP\Response;
 
 abstract class Header {
-	protected $headerString = '';
+	protected $values = [];
 
 	//Singleton Pattern: Can't create an instance
-	protected function __construct() {}
+	final protected function __construct() {}
 	//Singleton Pattern: Can't clone
-	protected function __clone() {}
+	final protected function __clone() {}
 	//Singleton Pattern: Can't deserialize
-	protected function __wakeup() {}
+	final protected function __wakeup() {}
 
-	/**
-	 * Set values of instance
-	 * @param mixed  $value [Values for the header]
-	 * @param boolean $send  [Send header right away]
-	 * @return void
-	 */
-	abstract public function set($value, $send = false);
+	abstract public function getName();
+
+	abstract protected function setDefaults();
+
+	final public function set($values) {
+		$this->values = is_array($values) ? $values : [$values];
+
+		return $this;
+	}
+
+	final public function add($value) {
+		if( ! is_array($value)) {
+			$value = [$value];
+		}
+
+		foreach($value as $v) {
+			$key = array_search($v, $this->values);
+
+			if( ! $key) {
+				$this->values[] = $v;
+			}
+			else {
+				$this->values[$key] = $v;
+			}
+		}
+
+		return $this;
+	}
+
+	final public function getValues() {
+		return $this->values;
+	}
+
+	final public function getString() {
+		return empty($this->values) ? '' : implode(',', $this->values);
+	}
 
 	/**
 	 * Send header string
 	 */
-	final public function sendHeader() {
-		header($this->headerString);
+	final public function send() {
+		if(empty($this->values)) {
+			$this->setDefaults();
+		}
+
+		header("{$this->getName()}: {$this->getString()}");
 	}
-	
+
 	/**
 	 * Get the header instance
 	 * @return HttpHeader

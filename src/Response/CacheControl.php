@@ -1,10 +1,7 @@
 <?php
-namespace HTTP\response;
+namespace HTTP\Response;
 
-require_once('HttpHeader.php');
-
-use HTTP\response\HTTPHeader;
-class CacheControl extends HTTPHeader {
+class CacheControl extends Header {
 
 	const CACHE_PUBLIC = 'public';
 	const CACHE_PRIVATE = 'private';
@@ -19,51 +16,35 @@ class CacheControl extends HTTPHeader {
 	const STALE_IF_ERROR = 'stale-if-error';
 	const STALE_WHILE_REVALIDATE = 'stale-while-revalidate';
 
-	public $cache = array(
-		'expiration' => 'max-age=3600',
-		'mode' => 'public',
-		'channel' => null,
-		'state' => null
-		);
+	public function getName() {
+		return 'Cache-Control';
+	}
 
-	public $cacheString = '';
-
-	public function set($cache = null, $send = false) {
-		$this->cache = is_null($cache) ? $this->cache : $cache;
-		$this->setCacheString();
-
-		$this->headerString = "Cache-Control:{$this->cacheString}";
-
-		if($send) {
-			$this->sendHeader();
-		}
+	protected function setDefaults() {
+		$this->setExpirationType()->setMode();
 	}
 
 	public function setExpirationType($type = self::MAX_AGE, $duration = 3600) {
-		$this->cache['expiration'] = "{$type}={$duration}";
+		$this->values['expiration'] = "{$type}={$duration}";
+
+		return $this;
 	}
 
 	public function setMode($mode = self::CACHE_PUBLIC) {
-		$this->cache['mode'] = $mode;
+		$this->values['mode'] = $mode;
+
+		return $this;
 	}
 
 	public function setChannel($url) {
-		$this->cache['channel'] = "channel={$url}";
+		$this->values['channel'] = "channel={$url}";
+
+		return $this;
 	}
 
 	public function setStale($stale) {
-		$this->cache['stale'] = $stale;
-	}
+		$this->values['stale'] = $stale;
 
-	private function setCacheString() {
-		$temp = array();
-
-		foreach($this->cache as $extension => $string) {
-			if( ! is_null($string)) {
-				array_push($temp, $string);
-			}
-		}
-
-		$this->cacheString .= ' '.implode(', ', $temp);
+		return $this;
 	}
 }

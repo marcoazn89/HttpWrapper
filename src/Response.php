@@ -1,55 +1,99 @@
 <?php
 namespace HTTP;
 
-class Message implements \Psr\Http\Message\ResponseInterface {
-	private static $headers = array();
-	private static $body = '';
+class Response implements \Psr\Http\Message\ResponseInterface, Response\ResponseHeaders {
+	protected $status = null;
+	protected $headers = array();
+	protected $stream;
+	protected $body = '';
 
-	public static function status($code, $init = false) {
-		if($init) {
-			Response\Status::getInstance()->set($code, $init);
+	public function __construct() {
+		$thisClass = new \ReflectionClass(__CLASS__);
+		$allClasses = get_declared_classes();
+
+		foreach($thisClass->getConstants() as $class) {
+			$header = sprintf('HTTP\Response\%s',$class);
+
+			if(in_array($header, $allClasses)) {
+				$this->headers[$class] = $header::getInstance();
+			}
 		}
-		else {
-			$status = Response\Status::getInstance();
-			$status->set($code, $init);
-			self::$headers['status'] = $status;
+
+		if( ! array_key_exists('status', $this->headers)) {
+			$this->status = Response\Status::getInstance()->set();
 		}
+	}
+
+	public function status($code, $init = false) {
+		$this->status = Response\Status::getInstance()->setCode($code);
+	}
+
+	public function protocol($protocol) {
+		Response\Status::getInstance()->setProtocol($protocol);
+	}
+
+	public function message($message) {
+		Response\Response\Status::getInstance()->setMessage($message);
 	}
 
 	public function getProtocolVersion() {
-
+		return Response\Status::getInstance()->getProtocol();
 	}
 
 	public function withProtocolVersion($version) {
+		Response\Status::getInstance()->setProtocol($version);
 
+		return clone $this;
 	}
 
 	public function getHeaders() {
-
+		$headers = [];
+		foreach($this->headers as $key => $header) {
+			$headers[$key] = $header->getValues();
+		}
+		return $headers;
 	}
 
 	public function hasHeader($name) {
-
+		return isset($this->headers[$name]) ? true : false;
 	}
 
 	public function getHeader($name) {
-
+		return isset($this->headers[$name]) ? $this->headers[$name]->getValues() : [];
 	}
 
 	public function getHeaderLine($name) {
-
+		return isset($this->headers[$name]) ? $this->headers[$name]->getString() : '';
 	}
 
 	public function withHeader($name, $value) {
+		$new = clone $this;
+		$header = sprintf('HTTP\Response\%s',$name);
 
+		$new->headers[$name] = $header::getInstance()->set($value);
+
+		return $new;
 	}
 
 	public function withAddedHeader($name, $value) {
+		$new = clone $this;
+		$header = sprintf('HTTP\Response\%s',$name);
+		$header = $header::getInstance();
 
+		if( ! array_key_exists($name, $new->headers)) {
+			$new->headers[$name] = $header;
+		}
+
+		$new->headers[$name]->add($value);
+
+		return $new;
 	}
 
 	public function withoutHeader($name) {
+		$new = clone $this;
+		unset($new->headers[$name]);
 
+		return $new;
 	}
 
 	public function getBody() {
@@ -57,20 +101,36 @@ class Message implements \Psr\Http\Message\ResponseInterface {
 	}
 
 	public function withBody(\Psr\Http\Message\StreamInterface $body) {
+		$new = clone $this;
 
+		return $new;
 	}
 
 	public function getStatusCode() {
-		return $this->headers['status']->code;
+		return $this->status->getCode();
 	}
 
 	public function withStatus($code, $reasonPhrase = '') {
+		$new = clone $this;
+		$new->status->setCode($code);
 
+		if( ! empty($reasonPhrase)) {
+			$new->status->setMessage($reasonPhrase);
+		}
+
+		return $new;
 	}
 
 	public function getReasonPhrase() {
-		return $this->headers['status']->message;
+		return $this->status->getMessage();
 
+	}
+
+	public function send() {
+		$this->status->send();
+		foreach($this->headers as $header) {
+			$header->send();
+		}
 	}
 
 	/*public static function contentType($contentType, $init = false) {
