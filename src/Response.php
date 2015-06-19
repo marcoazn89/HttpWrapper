@@ -4,8 +4,7 @@ namespace HTTP;
 class Response implements \Psr\Http\Message\ResponseInterface, Response\ResponseHeaders {
 	protected $status = null;
 	protected $headers = array();
-	protected $stream;
-	protected $body = '';
+	protected $body;
 
 	public function __construct() {
 		$thisClass = new \ReflectionClass(__CLASS__);
@@ -22,6 +21,8 @@ class Response implements \Psr\Http\Message\ResponseInterface, Response\Response
 		if( ! array_key_exists('status', $this->headers)) {
 			$this->status = Response\Status::getInstance()->set();
 		}
+
+		$this->body = new Body(fopen('php://temp', 'r+'));
 	}
 
 	public function status($code, $init = false) {
@@ -97,11 +98,12 @@ class Response implements \Psr\Http\Message\ResponseInterface, Response\Response
 	}
 
 	public function getBody() {
-
+		return $this->body;
 	}
 
 	public function withBody(\Psr\Http\Message\StreamInterface $body) {
 		$new = clone $this;
+		$new->body = $body;
 
 		return $new;
 	}
