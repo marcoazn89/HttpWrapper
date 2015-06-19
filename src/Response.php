@@ -65,11 +65,27 @@ class Response implements \Psr\Http\Message\ResponseInterface, Response\Response
 		return isset($this->headers[$name]) ? $this->headers[$name]->getString() : '';
 	}
 
+	public function mapHeader($name) {
+		switch(strtolower($name)) {
+			case strtolower(self::CACHE_CONTROL):
+				return Response\CacheControl::getInstance();
+				break;
+			case strtolower(self::CONTENT_LENGTH):
+				return Response\ContentLength::getInstance();
+				break;
+			case strtolower(self::ContentType):
+				return Response\ContentType::getInstance();
+				break;
+			default:
+				die("shit");
+		}
+	}
+
 	public function withHeader($name, $value) {
 		$new = clone $this;
 		$header = sprintf('HTTP\Response\%s',$name);
 
-		$new->headers[$name] = $header::getInstance()->set($value);
+		$new->headers[$name] = $this->mapHeader($name)->set($value);
 
 		return $new;
 	}
@@ -77,7 +93,7 @@ class Response implements \Psr\Http\Message\ResponseInterface, Response\Response
 	public function withAddedHeader($name, $value) {
 		$new = clone $this;
 		$header = sprintf('HTTP\Response\%s',$name);
-		$header = $header::getInstance();
+		$header = $this->mapHeader($name);
 
 		if( ! array_key_exists($name, $new->headers)) {
 			$new->headers[$name] = $header;
