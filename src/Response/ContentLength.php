@@ -1,12 +1,7 @@
 <?php
-namespace HTTP\response;
+namespace HTTP\Response;
 
-require_once('HttpHeader.php');
-
-use HTTP\response\HTTPHeader;
-
-class ContentLength extends HTTPHeader {
-
+class ContentLength extends Header {
 	const ADOBE_SHOCKWAVE = 'application/x-director';
 	const ADOBE_FLASH = 'application/x-shockwave-flash';
 	const AVI = 'video/x-msvideo';
