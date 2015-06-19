@@ -22,7 +22,7 @@ class Response implements \Psr\Http\Message\ResponseInterface, Response\Response
 			$this->status = Response\Status::getInstance()->set();
 		}
 
-		$this->body = new Body(fopen('php://temp', 'r+'));
+		$this->body = fopen('php://temp', 'r+');
 	}
 
 	public function status($code, $init = false) {
