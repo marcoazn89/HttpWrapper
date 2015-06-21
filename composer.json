@@ -1,9 +1,9 @@
 {
-    "name": "marcoazn89/HttpWrapper",
+    "name": "marcoazn89/http-wrapper",
     "license": "MIT",
     "description": "An HTTP wraper library",
     "keywords": ["library", "http", "php"],
-    "homepage": "https://github.com/marcoazn89/HttpWrapper",
+    "homepage": "https://github.com/marcoazn89/http-wrapper",
     "authors": [
         {
             "name": "Marco A. Chang",
