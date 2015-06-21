@@ -3,7 +3,7 @@
     "license": "MIT",
     "description": "An HTTP wraper library",
     "keywords": ["library", "http", "php"],
-    "homepage": "https://github.com/marcoazn89/plankter",
+    "homepage": "https://github.com/marcoazn89/HttpWrapper",
     "authors": [
         {
             "name": "Marco A. Chang",
