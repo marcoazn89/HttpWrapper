@@ -1,10 +1,7 @@
 <?php
-namespace HTTP\response;
+namespace HTTP\Response;
 
-require_once('HttpHeader.php');
-
-use HTTP\response\HTTPHeader;
-class Language extends HTTPHeader {
+class Language extends Header {
 
 	const ARABIC = 'ar';
 	const ARMENIAN = 'hy';
@@ -29,15 +26,11 @@ class Language extends HTTPHeader {
 	const TURKISH = 'tr';
 	const VIETNAMESE = 'vi';
 
-	public $language;
+	public function getName() {
+		return 'Language';
+	}
 
-	public function set($language, $send = false) {
-		$this->language = $language;
-
-		$this->headerString = "Content-Language: {$this->language}";
-		
-		if($send) {
-			$this->sendHeader();
-		}	
+	protected function setDefaults() {
+		$this->values[] = self::ENGLISH;
 	}
 }

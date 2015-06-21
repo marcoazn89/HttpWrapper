@@ -43,8 +43,6 @@ class ContentLength extends Header {
 	const ZIP = 'application/zip';
 	const ZIP_7 = 'application/x-7z-compressed';
 
-	public $content;
-
 	public function getName() {
 		return 'Content-Length';
 	}

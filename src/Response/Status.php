@@ -2,52 +2,90 @@
 namespace HTTP\Response;
 
 class Status {
-	const CODE200 = 200;
-	const CODE404 = 404;
-	const CODE500 = 500;
+	const CODE200	= 200;
+	const CODE201	= 201;
+	const CODE202	= 202;
+	const CODE203	= 203;
+	const CODE204	= 204;
+	const CODE205	= 205;
+	const CODE206	= 206;
 
-	public $status = array(
+	const CODE300	= 300;
+	const CODE301	= 301;
+	const CODE302	= 302;
+	const CODE303	= 303;
+	const CODE304	= 304;
+	const CODE305	= 305;
+	const CODE307	= 307;
+
+	const CODE400	= 400;
+	const CODE401	= 401;
+	const CODE403	= 403;
+	const CODE404	= 404;
+	const CODE405	= 405;
+	const CODE406	= 406;
+	const CODE407	= 407;
+	const CODE408	= 408;
+	const CODE409	= 409;
+	const CODE410	= 410;
+	const CODE411	= 411;
+	const CODE412	= 412;
+	const CODE413	= 413;
+	const CODE414	= 414;
+	const CODE415	= 415;
+	const CODE416	= 416;
+	const CODE417	= 417;
+	const CODE422	= 422;
+
+	const CODE500	= 500;
+	const CODE501	= 501;
+	const CODE502	= 502;
+	const CODE503	= 503;
+	const CODE504	= 504;
+	const CODE505	= 505;
+
+	protected $status = array(
 		self::CODE200	=> 'OK',
-		201	=> 'Created',
-		202	=> 'Accepted',
-		203	=> 'Non-Authoritative Information',
-		204	=> 'No Content',
-		205	=> 'Reset Content',
-		206	=> 'Partial Content',
+		self::CODE201	=> 'Created',
+		self::CODE202	=> 'Accepted',
+		self::CODE203	=> 'Non-Authoritative Information',
+		self::CODE204	=> 'No Content',
+		self::CODE205	=> 'Reset Content',
+		self::CODE206	=> 'Partial Content',
 
-		300	=> 'Multiple Choices',
-		301	=> 'Moved Permanently',
-		302	=> 'Found',
-		303	=> 'See Other',
-		304	=> 'Not Modified',
-		305	=> 'Use Proxy',
-		307	=> 'Temporary Redirect',
+		self::CODE300	=> 'Multiple Choices',
+		self::CODE301	=> 'Moved Permanently',
+		self::CODE302	=> 'Found',
+		self::CODE303	=> 'See Other',
+		self::CODE304	=> 'Not Modified',
+		self::CODE305	=> 'Use Proxy',
+		self::CODE307	=> 'Temporary Redirect',
 
-		400	=> 'Bad Request',
-		401	=> 'Unauthorized',
-		403	=> 'Forbidden',
+		self::CODE400	=> 'Bad Request',
+		self::CODE401	=> 'Unauthorized',
+		self::CODE403	=> 'Forbidden',
 		self::CODE404	=> 'Not Found',
-		405	=> 'Method Not Allowed',
-		406	=> 'Not Acceptable',
-		407	=> 'Proxy Authentication Required',
-		408	=> 'Request Timeout',
-		409	=> 'Conflict',
-		410	=> 'Gone',
-		411	=> 'Length Required',
-		412	=> 'Precondition Failed',
-		413	=> 'Request Entity Too Large',
-		414	=> 'Request-URI Too Long',
-		415	=> 'Unsupported Media Type',
-		416	=> 'Requested Range Not Satisfiable',
-		417	=> 'Expectation Failed',
-		422	=> 'Unprocessable Entity',
+		self::CODE405	=> 'Method Not Allowed',
+		self::CODE406	=> 'Not Acceptable',
+		self::CODE407	=> 'Proxy Authentication Required',
+		self::CODE408	=> 'Request Timeout',
+		self::CODE409	=> 'Conflict',
+		self::CODE410	=> 'Gone',
+		self::CODE411	=> 'Length Required',
+		self::CODE412	=> 'Precondition Failed',
+		self::CODE413	=> 'Request Entity Too Large',
+		self::CODE414	=> 'Request-URI Too Long',
+		self::CODE415	=> 'Unsupported Media Type',
+		self::CODE416	=> 'Requested Range Not Satisfiable',
+		self::CODE417	=> 'Expectation Failed',
+		self::CODE422	=> 'Unprocessable Entity',
 
 		self::CODE500	=> 'Internal Server Error',
-		501	=> 'Not Implemented',
-		502	=> 'Bad Gateway',
-		503	=> 'Service Unavailable',
-		504	=> 'Gateway Timeout',
-		505	=> 'HTTP Version Not Supported'
+		self::CODE501	=> 'Not Implemented',
+		self::CODE502	=> 'Bad Gateway',
+		self::CODE503	=> 'Service Unavailable',
+		self::CODE504	=> 'Gateway Timeout',
+		self::CODE505	=> 'HTTP Version Not Supported'
 		);
 
 	protected $protocol = '1.1';

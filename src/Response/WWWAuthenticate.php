@@ -1,30 +1,10 @@
 <?php
-namespace HTTP\response;
+namespace HTTP\Response;
 
-require_once('HttpHeader.php');
+class WWWAuthenticate extends Header {
 
-use HTTP\response\HTTPHeader;
-
-class WWWAuthenticate extends HTTPHeader {
-
-	public $auth = array();
+	public $auth = [];
 	public $type = 'Basic';
-	
-	public function set($auth = array(), $send = false) {
-		$this->auth = $auth;
-
-		$this->headerString = "WWW-Authenticate: {$this->type} ";
-
-		foreach($this->auth as $key => $val) {
-			$this->headerString .= "{$key}={$val},";
-		}
-
-		$this->headerString = rtrim($this->headerString, ",");
-
-		if($send) {
-			$this->sendHeader();
-		}
-	}
 
 	/**
 	 * Set the authentication type.
@@ -33,5 +13,17 @@ class WWWAuthenticate extends HTTPHeader {
 	 */
 	public function setType($type) {
 		$this->type = $type;
+	}
+
+	public function auth($key, $value) {
+		$this->auth[$key] = $value;
+	}
+
+	public function getName() {
+		return 'WWW-Authenticate';
+	}
+
+	protected function setDefaults() {
+		$this->values[] = $this->type;
 	}
 }

@@ -1,7 +1,7 @@
 <?php
-namespace HTTP\response;
+namespace HTTP\Response;
 
-class ContentType extends HTTPHeader {
+class ContentType extends Header {
 
 	const ADOBE_SHOCKWAVE = 'application/x-director';
 	const ADOBE_FLASH = 'application/x-shockwave-flash';
@@ -43,8 +43,6 @@ class ContentType extends HTTPHeader {
 	const XML = 'application/xml';
 	const ZIP = 'application/zip';
 	const ZIP_7 = 'application/x-7z-compressed';
-
-	public $values;
 
 	public function getName() {
 		return 'Content-Type';

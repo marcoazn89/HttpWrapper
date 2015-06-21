@@ -4,6 +4,58 @@
 		"selected_items":
 		[
 			[
+				"Content",
+				"ContentType"
+			],
+			[
+				"strt",
+				"strtolower〔function〕"
+			],
+			[
+				"S",
+				"Status::CODE200"
+			],
+			[
+				"w",
+				"withStatus〔function〕"
+			],
+			[
+				"get",
+				"getHeaders〔function〕"
+			],
+			[
+				"print",
+				"print_r"
+			],
+			[
+				"wi",
+				"withProtocolVersion〔function〕"
+			],
+			[
+				"H",
+				"HTTP\\Response"
+			],
+			[
+				"R",
+				"ResponseHeaders	ResponseHeaders"
+			],
+			[
+				"getCon",
+				"getConstants〔function〕"
+			],
+			[
+				"heaer",
+				"headers"
+			],
+			[
+				"sta",
+				"$status	mixed"
+			],
+			[
+				"set",
+				"setMessage〔function〕"
+			],
+			[
 				"getHea",
 				"getHeaders"
 			],
@@ -42,10 +94,6 @@
 			[
 				"request",
 				"requestData"
-			],
-			[
-				"S",
-				"SERVER_PROTOCOL"
 			],
 			[
 				"on",
@@ -164,69 +212,26 @@
 	"buffers":
 	[
 		{
-			"contents": "<?php\nnamespace HTTP;\n\nclass Message implements \\Psr\\Http\\Message\\ResponseInterface {\n	/*protected static $headers = array();\n	protected static $code = 200;\n	protected static $stream;\n	protected static $body = '';\n	protected static $protocol = '1.1';*/\n\n	protected $headers = array();\n	protected $code;\n	protected $stream;\n	protected $body = '';\n\n	public static function status($code, $init = false) {\n		if($init) {\n			Response\\Status::getInstance()->set($code, $init);\n		}\n		else {\n			$status = Response\\Status::getInstance();\n			$status->set($code, $init);\n		}\n	}\n\n	public static function protocol($protocol) {\n		Response\\Status::getInstance()->setProtocol($protocol);\n	}\n\n	public static function message($message) {\n		Response\\Status::getInstance()->setMessage($message);\n	}\n\n	public function getProtocolVersion() {\n		return Response\\Status::getInstance()->getProtocol();\n	}\n\n	public function withProtocolVersion($version) {\n		Response\\Status::getInstance()->setProtocol($version);\n\n		return clone $this;\n	}\n\n	public function getHeaders() {\n		return $this->headers;\n	}\n\n	public function hasHeader($name) {\n		return isset($this->headers[$name]) ? true : false;\n	}\n\n	public function getHeader($name) {\n		return isset($this->headers[$name]) ? $this->headers[$name] : [];\n	}\n\n	public function getHeaderLine($name) {\n		return isset(self::$headers[$name]) ? implode(',', self::$headers[$name]) : '';\n	}\n\n	public function withHeader($name, $value) {\n		$new = clone $this;\n\n		$new->headers[$name] = is_array($value) ? $value : [$value];\n\n		return $new;\n	}\n\n	public function withAddedHeader($name, $value) {\n		$new = clone $this;\n\n		if(array_key_exists($name, $new->headers)) {\n			\n		}\n		else {\n			$headers[$name] = is_array($value) ? $value : [$value];\n		}\n	}\n\n	public function withoutHeader($name) {\n\n	}\n\n	public function getBody() {\n\n	}\n\n	public function withBody(\\Psr\\Http\\Message\\StreamInterface $body) {\n\n	}\n\n	public function getStatusCode() {\n		return self::$headers['status']->code;\n	}\n\n	public function withStatus($code, $reasonPhrase = '') {\n\n	}\n\n	public function getReasonPhrase() {\n		return self::$headers['status']->message;\n\n	}\n\n	/*public static function contentType($contentType, $init = false) {\n		if($init) {\n			Response\\ContentType::getInstance()->set($contentType, $init);\n		}\n		else {\n			$content = Response\\ContentType::getInstance();\n			$content->set($contentType, $init);\n			self::$headers['type'] = $content;\n		}\n	}\n\n	public static function negotiateContentType($strongNegotiation = false) {\n		$negotiation = ContentNegotiation::negotiate(AcceptType::getContent(), TypeSupport::getSupport());\n\n		$content = '';\n\n		if(count($negotiation) > 0) {\n			$content = $negotiation[0];\n		}\n		else {\n			if($strongNegotiation) {\n				self::fail();\n			}\n			else {\n				$content = TypeSupport::getSupport();\n				$content = $content[0];\n			}\n		}\n\n		return $content;\n	}\n\n	public static function fail($statusCode) {\n		$supported = TypeSupport::getSupport();\n		$clientSupport = AcceptType::getContent();\n\n		$supported = implode(',', $supported);\n		$clientSupport = implode(',',$clientSupport);\n\n		self::status(406);\n		self::contentType(ContentType::TEXT);\n		self::body(\"NOT SUPPORTED\\nThis server does not support {$supported}.\\nSupported formats: {$clientSupport}\");\n		self::sendResponse();\n	}\n\n	public static function language($language, $init = false) {\n		if($init) {\n			Language::getInstance()->set($language, $init);\n		}\n		else {\n			$lang = Language::getInstance();\n			$lang->set($language, $init);\n			self::$headers['language'] = $lang;\n		}\n	}\n\n	public static function authenticate($auth = array(), $init = false) {\n		if($init) {\n			WWWAuthenticate::getInstance()->set($auth, $init);\n		}\n		else {\n			$authenticate = WWWAuthenticate::getInstance();\n			$authenticate->set($auth, $init);\n			self::$headers['authenticate'] = $authenticate;\n		}\n	}\n\n	public static function cache($cache = null, $init = false) {\n		if($init) {\n			CacheControl::getInstance()->set($cache, $init);\n		}\n		else {\n			$c = CacheControl::getInstance();\n			$c->set($cache, $init);\n			self::$headers['cache'] = $c;\n		}\n	}\n\n	public static function body($content) {\n		self::$body = $content;\n	}\n\n	public static function sendResponse() {\n		foreach(self::$headers as $k => $header) {\n			$header->sendHeader();\n		}\n\n		if( ! empty(self::$body)) {\n			echo self::$body;\n		}\n	}*/\n}\n",
-			"file": "src/Message.php",
-			"file_size": 4054,
-			"file_write_time": 130791266480251532,
+			"file": "src/Response.php",
 			"settings":
 			{
-				"buffer_size": 4343,
+				"buffer_size": 5596,
 				"line_ending": "Unix"
 			}
 		},
 		{
-			"file": "src/Response/CacheControl.php",
+			"file": "src/Support/ContentSupport.php",
 			"settings":
 			{
-				"buffer_size": 1523,
+				"buffer_size": 396,
 				"line_ending": "Windows"
 			}
 		},
 		{
-			"file": "src/Response/WWWAuthenticate.php",
+			"file": "ContentNegotiation.php",
 			"settings":
 			{
-				"buffer_size": 676,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "src/Response/ResponseHeaders.php",
-			"settings":
-			{
-				"buffer_size": 72,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "tests/status.php",
-			"settings":
-			{
-				"buffer_size": 73,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "src/Response/ContentType.php",
-			"settings":
-			{
-				"buffer_size": 1772,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "src/Response/Header.php",
-			"settings":
-			{
-				"buffer_size": 868,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "composer.json",
-			"settings":
-			{
-				"buffer_size": 545,
+				"buffer_size": 225,
 				"line_ending": "Windows"
 			}
 		},
@@ -247,21 +252,42 @@
 			}
 		},
 		{
-			"contents": "<?php\nnamespace HTTP\\Response;\n\nclass Status extends Header {\n\n	const CODE200 = 200;\n	const CODE404 = 400;\n	const CODE500 = 500;\n\n	public $status = array(\n		CODE200	=> 'OK',\n		201	=> 'Created',\n		202	=> 'Accepted',\n		203	=> 'Non-Authoritative Information',\n		204	=> 'No Content',\n		205	=> 'Reset Content',\n		206	=> 'Partial Content',\n\n		300	=> 'Multiple Choices',\n		301	=> 'Moved Permanently',\n		302	=> 'Found',\n		303	=> 'See Other',\n		304	=> 'Not Modified',\n		305	=> 'Use Proxy',\n		307	=> 'Temporary Redirect',\n\n		CODE400	=> 'Bad Request',\n		401	=> 'Unauthorized',\n		403	=> 'Forbidden',\n		404	=> 'Not Found',\n		405	=> 'Method Not Allowed',\n		406	=> 'Not Acceptable',\n		407	=> 'Proxy Authentication Required',\n		408	=> 'Request Timeout',\n		409	=> 'Conflict',\n		410	=> 'Gone',\n		411	=> 'Length Required',\n		412	=> 'Precondition Failed',\n		413	=> 'Request Entity Too Large',\n		414	=> 'Request-URI Too Long',\n		415	=> 'Unsupported Media Type',\n		416	=> 'Requested Range Not Satisfiable',\n		417	=> 'Expectation Failed',\n		422	=> 'Unprocessable Entity',\n\n		CODE500	=> 'Internal Server Error',\n		501	=> 'Not Implemented',\n		502	=> 'Bad Gateway',\n		503	=> 'Service Unavailable',\n		504	=> 'Gateway Timeout',\n		505	=> 'HTTP Version Not Supported'\n		);\n\n	protected $protocol = '1.1';\n	protected $code = CODE200;\n	protected $message = 'OK';\n\n	public function set($code, $send = false) {\n		$this->setCode($code);\n\n		$this->headerString = \"HTTP/{$this->protocol} {$this->code} {$this->message}\";\n\n		if($send) {\n			$this->sendHeader();\n		}\n	}\n\n	public function setCode($code) {\n		if(array_key_exists($code, $this->status)) {\n			$this->code = $code;\n			$this->message = $this->status[$code];\n		}\n		else {\n			throw new Exception(\"Unkown HTTP response code {$code}\", 1);\n		}\n	}\n\n	public function getCode() {\n		return $this->code;\n	}\n\n	public function setProtocol($protocol) {\n		if(is_string($protocol)) {\n			$this->protocol = $protocol;\n		}\n		else {\n			throw new Exception(\"Invalid protocol {$protocol}\", 1);\n		}\n	}\n\n	public function getProtocol() {\n		return $this->protocol;\n	}\n\n	public function setMessage($message) {\n		$this->message = $message;\n	}\n\n	public function getMessage() {\n		return $this->message;\n	}\n}\n",
-			"file": "src/Response/Status.php",
-			"file_size": 1971,
-			"file_write_time": 130791261915680453,
+			"file": "src/Response/Header.php",
 			"settings":
 			{
-				"buffer_size": 2198,
+				"buffer_size": 1382,
 				"line_ending": "Windows"
 			}
 		},
 		{
-			"file": "testHttp.php",
+			"file": "src/Response/Status.php",
 			"settings":
 			{
-				"buffer_size": 907,
+				"buffer_size": 4029,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"contents": "const CODE200	= 200\n		const CODE201	= 'Created',\n		const CODE202	= 'Accepted',\n		const CODE203	= 'Non-Authoritative Information',\n		const CODE204	= 'No Content',\n		const CODE205	= 'Reset Content',\n		const CODE206	= 'Partial Content',\n\n		const CODE300	= 'Multiple Choices',\n		const CODE301	= 'Moved Permanently',\n		const CODE302	= 'Found',\n		const CODE303	= 'See Other',\n		const CODE304	= 'Not Modified',\n		const CODE305	= 'Use Proxy',\n		const CODE307	= 'Temporary Redirect',\n\n		const CODE400	= 'Bad Request',\n		const CODE401	= 'Unauthorized',\n		const CODE403	= 'Forbidden',\n		const CODE404	= 'Not Found',\n		const CODE405	= 'Method Not Allowed',\n		const CODE406	= 'Not Acceptable',\n		const CODE407	= 'Proxy Authentication Required',\n		const CODE408	= 'Request Timeout',\n		const CODE409	= 'Conflict',\n		const CODE410	= 'Gone',\n		const CODE411	= 'Length Required',\n		const CODE412	= 'Precondition Failed',\n		const CODE413	= 'Request Entity Too Large',\n		const CODE414	= 'Request-URI Too Long',\n		const CODE415	= 'Unsupported Media Type',\n		const CODE416	= 'Requested Range Not Satisfiable',\n		const CODE417	= 'Expectation Failed',\n		const CODE422	= 'Unprocessable Entity',\n\n		const CODE500	= 'Internal Server Error',\n		const CODE501	= 'Not Implemented',\n		const CODE502	= 'Bad Gateway',\n		const CODE503	= 'Service Unavailable',\n		const CODE504	= 'Gateway Timeout',\n		const CODE505	= 'HTTP Version Not Supported'",
+			"settings":
+			{
+				"buffer_size": 1408,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "tests/status.php",
+			"settings":
+			{
+				"buffer_size": 1113,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "src/Response/CacheControl.php",
+			"settings":
+			{
+				"buffer_size": 1048,
 				"line_ending": "Windows"
 			}
 		}
@@ -332,11 +358,20 @@
 	"expanded_folders":
 	[
 		"/C/xampp/htdocs/plankter",
-		"/C/xampp/htdocs/plankter/src",
-		"/C/xampp/htdocs/plankter/src/Response"
+		"/C/xampp/htdocs/plankter/src"
 	],
 	"file_history":
 	[
+		"/C/xampp/htdocs/plankter/composer.json",
+		"/C/xampp/htdocs/plankter/src/Response/CacheControl.php",
+		"/C/xampp/htdocs/plankter/src/Response/ContentLength.php",
+		"/C/xampp/htdocs/plankter/vendor/psr/http-message/src/StreamInterface.php",
+		"/C/xampp/htdocs/plankter/src/Response/ResponseHeaders.php",
+		"/C/xampp/htdocs/plankter/src/Response/ContentType.php",
+		"/C/xampp/htdocs/plankter/src/Response/WWWAuthenticate.php",
+		"/C/xampp/htdocs/plankter/src/Response/Language.php",
+		"/C/xampp/htdocs/plankter/tests/status.php",
+		"/C/xampp/htdocs/plankter/src/Response/Header.php",
 		"/C/xampp/htdocs/plankter/http.php",
 		"/C/xampp/htdocs/plankter/response/ContentType.php",
 		"/C/xampp/htdocs/talentinc/talentinc-ads/api/application/config/config.php",
@@ -454,17 +489,7 @@
 		"/C/xampp/htdocs/talentinc/talentinc-ads/admin/api/application/controllers/core/authentication.php",
 		"/C/xampp/htdocs/talentinc/talentinc-ads/admin/api/application/controllers/entities/log_view.php",
 		"/C/xampp/htdocs/talentinc/talentinc-ads/admin/api/application/controllers/entities/theme.php",
-		"/C/xampp/htdocs/talentinc/talentinc-ads/admin/api/application/controllers/Ui_controller.php",
-		"/C/xampp/htdocs/talentinc/talentinc-ads/admin/api/application/controllers/core/class_factory.php",
-		"/C/xampp/htdocs/talentinc/talentinc-ads/admin/api/application/controllers/core/crud_controller.php",
-		"/C/xampp/htdocs/talentinc/talentinc-ads/admin/api/application/controllers/core/dataHandler.php",
-		"/C/xampp/htdocs/talentinc/talentinc-ads/admin/api/application/controllers/core/request.php",
-		"/C/xampp/htdocs/talentinc/talentinc-ads/admin/app/js/partials/partner.html",
-		"/C/xampp/htdocs/talentinc/talentinc-ads/admin/app/js/partials/index.html",
-		"/C/xampp/htdocs/talentinc/talentinc-ads/admin/app/js/partials/ad_detail.html",
-		"/C/xampp/htdocs/talentinc/talentinc-ads/admin/api/application/controllers/Restful_controller.php",
-		"/C/xampp/htdocs/talentinc/talentinc-ads/admin/api/application/controllers/traits/relationships.php",
-		"/C/xampp/htdocs/talentinc/talentinc-ads/admin/app/js/partials/ad-detail.html"
+		"/C/xampp/htdocs/talentinc/talentinc-ads/admin/api/application/controllers/Ui_controller.php"
 	],
 	"find":
 	{
@@ -483,6 +508,18 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"CODE",
+			"=>",
+			"self::",
+			"you fail",
+			"getIns",
+			"reasonP",
+			"status",
+			"Response\\Status::getInstace()",
+			"HTTP\\Response\\Status::",
+			"Status::",
+			"getins",
+			"->cache",
 			"withhea",
 			"private",
 			"sess",
@@ -518,6 +555,13 @@
 		"regex": false,
 		"replace_history":
 		[
+			"const CODE",
+			"=",
+			"",
+			"Response\\Status::getInstance()",
+			"Response\\Status::",
+			"HTTP\\Response\\Status::",
+			"->values",
 			"protected",
 			"ng-model",
 			"Ctrl', [",
@@ -546,19 +590,19 @@
 			[
 				{
 					"buffer": 0,
-					"file": "src/Message.php",
+					"file": "src/Response.php",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 4343,
+						"buffer_size": 5596,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								877,
-								877
+								1645,
+								1645
 							]
 						],
 						"settings":
@@ -567,61 +611,61 @@
 							"auto_complete": false,
 							"bh_regions":
 							[
-								"bh_unmatched",
-								"bh_unmatched_center",
-								"bh_unmatched_open",
-								"bh_unmatched_close",
-								"bh_unmatched_content",
-								"bh_round",
-								"bh_round_center",
-								"bh_round_open",
-								"bh_round_close",
-								"bh_round_content",
-								"bh_regex",
-								"bh_regex_center",
-								"bh_regex_open",
-								"bh_regex_close",
-								"bh_regex_content",
 								"bh_default",
 								"bh_default_center",
 								"bh_default_open",
 								"bh_default_close",
 								"bh_default_content",
-								"bh_c_define",
-								"bh_c_define_center",
-								"bh_c_define_open",
-								"bh_c_define_close",
-								"bh_c_define_content",
-								"bh_curly",
-								"bh_curly_center",
-								"bh_curly_open",
-								"bh_curly_close",
-								"bh_curly_content",
-								"bh_angle",
-								"bh_angle_center",
-								"bh_angle_open",
-								"bh_angle_close",
-								"bh_angle_content",
-								"bh_square",
-								"bh_square_center",
-								"bh_square_open",
-								"bh_square_close",
-								"bh_square_content",
-								"bh_single_quote",
-								"bh_single_quote_center",
-								"bh_single_quote_open",
-								"bh_single_quote_close",
-								"bh_single_quote_content",
+								"bh_double_quote",
+								"bh_double_quote_center",
+								"bh_double_quote_open",
+								"bh_double_quote_close",
+								"bh_double_quote_content",
 								"bh_tag",
 								"bh_tag_center",
 								"bh_tag_open",
 								"bh_tag_close",
 								"bh_tag_content",
-								"bh_double_quote",
-								"bh_double_quote_center",
-								"bh_double_quote_open",
-								"bh_double_quote_close",
-								"bh_double_quote_content"
+								"bh_unmatched",
+								"bh_unmatched_center",
+								"bh_unmatched_open",
+								"bh_unmatched_close",
+								"bh_unmatched_content",
+								"bh_curly",
+								"bh_curly_center",
+								"bh_curly_open",
+								"bh_curly_close",
+								"bh_curly_content",
+								"bh_regex",
+								"bh_regex_center",
+								"bh_regex_open",
+								"bh_regex_close",
+								"bh_regex_content",
+								"bh_square",
+								"bh_square_center",
+								"bh_square_open",
+								"bh_square_close",
+								"bh_square_content",
+								"bh_round",
+								"bh_round_center",
+								"bh_round_open",
+								"bh_round_close",
+								"bh_round_content",
+								"bh_c_define",
+								"bh_c_define_center",
+								"bh_c_define_open",
+								"bh_c_define_close",
+								"bh_c_define_content",
+								"bh_angle",
+								"bh_angle_center",
+								"bh_angle_open",
+								"bh_angle_close",
+								"bh_angle_content",
+								"bh_single_quote",
+								"bh_single_quote_center",
+								"bh_single_quote_open",
+								"bh_single_quote_close",
+								"bh_single_quote_content"
 							],
 							"incomplete_sync": null,
 							"remote_loading": false,
@@ -630,7 +674,7 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 217.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 0,
@@ -638,19 +682,19 @@
 				},
 				{
 					"buffer": 1,
-					"file": "src/Response/CacheControl.php",
+					"file": "src/Support/ContentSupport.php",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 1523,
+						"buffer_size": 396,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								1386,
-								1386
+								390,
+								390
 							]
 						],
 						"settings":
@@ -659,152 +703,61 @@
 							"auto_complete": false,
 							"bh_regions":
 							[
-								"bh_unmatched",
-								"bh_unmatched_center",
-								"bh_unmatched_open",
-								"bh_unmatched_close",
-								"bh_unmatched_content",
-								"bh_round",
-								"bh_round_center",
-								"bh_round_open",
-								"bh_round_close",
-								"bh_round_content",
-								"bh_regex",
-								"bh_regex_center",
-								"bh_regex_open",
-								"bh_regex_close",
-								"bh_regex_content",
 								"bh_default",
 								"bh_default_center",
 								"bh_default_open",
 								"bh_default_close",
 								"bh_default_content",
-								"bh_c_define",
-								"bh_c_define_center",
-								"bh_c_define_open",
-								"bh_c_define_close",
-								"bh_c_define_content",
-								"bh_curly",
-								"bh_curly_center",
-								"bh_curly_open",
-								"bh_curly_close",
-								"bh_curly_content",
-								"bh_angle",
-								"bh_angle_center",
-								"bh_angle_open",
-								"bh_angle_close",
-								"bh_angle_content",
-								"bh_square",
-								"bh_square_center",
-								"bh_square_open",
-								"bh_square_close",
-								"bh_square_content",
-								"bh_single_quote",
-								"bh_single_quote_center",
-								"bh_single_quote_open",
-								"bh_single_quote_close",
-								"bh_single_quote_content",
+								"bh_double_quote",
+								"bh_double_quote_center",
+								"bh_double_quote_open",
+								"bh_double_quote_close",
+								"bh_double_quote_content",
 								"bh_tag",
 								"bh_tag_center",
 								"bh_tag_open",
 								"bh_tag_close",
 								"bh_tag_content",
-								"bh_double_quote",
-								"bh_double_quote_center",
-								"bh_double_quote_open",
-								"bh_double_quote_close",
-								"bh_double_quote_content"
-							],
-							"incomplete_sync": null,
-							"remote_loading": false,
-							"synced": false,
-							"syntax": "Packages/PHP/PHP.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 238.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 1,
-					"type": "text"
-				},
-				{
-					"buffer": 2,
-					"file": "src/Response/WWWAuthenticate.php",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 676,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								0,
-								0
-							]
-						],
-						"settings":
-						{
-							"BracketHighlighterBusy": false,
-							"bh_regions":
-							[
 								"bh_unmatched",
 								"bh_unmatched_center",
 								"bh_unmatched_open",
 								"bh_unmatched_close",
 								"bh_unmatched_content",
-								"bh_round",
-								"bh_round_center",
-								"bh_round_open",
-								"bh_round_close",
-								"bh_round_content",
-								"bh_regex",
-								"bh_regex_center",
-								"bh_regex_open",
-								"bh_regex_close",
-								"bh_regex_content",
-								"bh_default",
-								"bh_default_center",
-								"bh_default_open",
-								"bh_default_close",
-								"bh_default_content",
-								"bh_c_define",
-								"bh_c_define_center",
-								"bh_c_define_open",
-								"bh_c_define_close",
-								"bh_c_define_content",
 								"bh_curly",
 								"bh_curly_center",
 								"bh_curly_open",
 								"bh_curly_close",
 								"bh_curly_content",
-								"bh_angle",
-								"bh_angle_center",
-								"bh_angle_open",
-								"bh_angle_close",
-								"bh_angle_content",
+								"bh_regex",
+								"bh_regex_center",
+								"bh_regex_open",
+								"bh_regex_close",
+								"bh_regex_content",
 								"bh_square",
 								"bh_square_center",
 								"bh_square_open",
 								"bh_square_close",
 								"bh_square_content",
+								"bh_round",
+								"bh_round_center",
+								"bh_round_open",
+								"bh_round_close",
+								"bh_round_content",
+								"bh_c_define",
+								"bh_c_define_center",
+								"bh_c_define_open",
+								"bh_c_define_close",
+								"bh_c_define_content",
+								"bh_angle",
+								"bh_angle_center",
+								"bh_angle_open",
+								"bh_angle_close",
+								"bh_angle_content",
 								"bh_single_quote",
 								"bh_single_quote_center",
 								"bh_single_quote_open",
 								"bh_single_quote_close",
-								"bh_single_quote_content",
-								"bh_tag",
-								"bh_tag_center",
-								"bh_tag_open",
-								"bh_tag_close",
-								"bh_tag_content",
-								"bh_double_quote",
-								"bh_double_quote_center",
-								"bh_double_quote_open",
-								"bh_double_quote_close",
-								"bh_double_quote_content"
+								"bh_single_quote_content"
 							],
 							"incomplete_sync": null,
 							"remote_loading": false,
@@ -816,89 +769,90 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 3,
+					"stack_index": 1,
 					"type": "text"
 				},
 				{
-					"buffer": 3,
-					"file": "src/Response/ResponseHeaders.php",
-					"semi_transient": false,
+					"buffer": 2,
+					"file": "ContentNegotiation.php",
+					"semi_transient": true,
 					"settings":
 					{
-						"buffer_size": 72,
+						"buffer_size": 225,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								64,
-								64
+								225,
+								225
 							]
 						],
 						"settings":
 						{
 							"BracketHighlighterBusy": false,
-							"auto_complete": false,
 							"bh_regions":
 							[
-								"bh_unmatched",
-								"bh_unmatched_center",
-								"bh_unmatched_open",
-								"bh_unmatched_close",
-								"bh_unmatched_content",
-								"bh_round",
-								"bh_round_center",
-								"bh_round_open",
-								"bh_round_close",
-								"bh_round_content",
-								"bh_regex",
-								"bh_regex_center",
-								"bh_regex_open",
-								"bh_regex_close",
-								"bh_regex_content",
 								"bh_default",
 								"bh_default_center",
 								"bh_default_open",
 								"bh_default_close",
 								"bh_default_content",
-								"bh_c_define",
-								"bh_c_define_center",
-								"bh_c_define_open",
-								"bh_c_define_close",
-								"bh_c_define_content",
-								"bh_curly",
-								"bh_curly_center",
-								"bh_curly_open",
-								"bh_curly_close",
-								"bh_curly_content",
-								"bh_angle",
-								"bh_angle_center",
-								"bh_angle_open",
-								"bh_angle_close",
-								"bh_angle_content",
-								"bh_square",
-								"bh_square_center",
-								"bh_square_open",
-								"bh_square_close",
-								"bh_square_content",
-								"bh_single_quote",
-								"bh_single_quote_center",
-								"bh_single_quote_open",
-								"bh_single_quote_close",
-								"bh_single_quote_content",
+								"bh_double_quote",
+								"bh_double_quote_center",
+								"bh_double_quote_open",
+								"bh_double_quote_close",
+								"bh_double_quote_content",
 								"bh_tag",
 								"bh_tag_center",
 								"bh_tag_open",
 								"bh_tag_close",
 								"bh_tag_content",
-								"bh_double_quote",
-								"bh_double_quote_center",
-								"bh_double_quote_open",
-								"bh_double_quote_close",
-								"bh_double_quote_content"
+								"bh_unmatched",
+								"bh_unmatched_center",
+								"bh_unmatched_open",
+								"bh_unmatched_close",
+								"bh_unmatched_content",
+								"bh_curly",
+								"bh_curly_center",
+								"bh_curly_open",
+								"bh_curly_close",
+								"bh_curly_content",
+								"bh_regex",
+								"bh_regex_center",
+								"bh_regex_open",
+								"bh_regex_close",
+								"bh_regex_content",
+								"bh_square",
+								"bh_square_center",
+								"bh_square_open",
+								"bh_square_close",
+								"bh_square_content",
+								"bh_round",
+								"bh_round_center",
+								"bh_round_open",
+								"bh_round_close",
+								"bh_round_content",
+								"bh_c_define",
+								"bh_c_define_center",
+								"bh_c_define_open",
+								"bh_c_define_close",
+								"bh_c_define_content",
+								"bh_angle",
+								"bh_angle_center",
+								"bh_angle_open",
+								"bh_angle_close",
+								"bh_angle_content",
+								"bh_single_quote",
+								"bh_single_quote_center",
+								"bh_single_quote_open",
+								"bh_single_quote_close",
+								"bh_single_quote_content"
 							],
 							"incomplete_sync": null,
+							"remote_loading": false,
+							"synced": false,
 							"syntax": "Packages/PHP/PHP.tmLanguage"
 						},
 						"translation.x": 0.0,
@@ -909,375 +863,7 @@
 					"type": "text"
 				},
 				{
-					"buffer": 4,
-					"file": "tests/status.php",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 73,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								40,
-								40
-							]
-						],
-						"settings":
-						{
-							"BracketHighlighterBusy": false,
-							"auto_complete": false,
-							"bh_regions":
-							[
-								"bh_unmatched",
-								"bh_unmatched_center",
-								"bh_unmatched_open",
-								"bh_unmatched_close",
-								"bh_unmatched_content",
-								"bh_round",
-								"bh_round_center",
-								"bh_round_open",
-								"bh_round_close",
-								"bh_round_content",
-								"bh_regex",
-								"bh_regex_center",
-								"bh_regex_open",
-								"bh_regex_close",
-								"bh_regex_content",
-								"bh_default",
-								"bh_default_center",
-								"bh_default_open",
-								"bh_default_close",
-								"bh_default_content",
-								"bh_c_define",
-								"bh_c_define_center",
-								"bh_c_define_open",
-								"bh_c_define_close",
-								"bh_c_define_content",
-								"bh_curly",
-								"bh_curly_center",
-								"bh_curly_open",
-								"bh_curly_close",
-								"bh_curly_content",
-								"bh_angle",
-								"bh_angle_center",
-								"bh_angle_open",
-								"bh_angle_close",
-								"bh_angle_content",
-								"bh_square",
-								"bh_square_center",
-								"bh_square_open",
-								"bh_square_close",
-								"bh_square_content",
-								"bh_single_quote",
-								"bh_single_quote_center",
-								"bh_single_quote_open",
-								"bh_single_quote_close",
-								"bh_single_quote_content",
-								"bh_tag",
-								"bh_tag_center",
-								"bh_tag_open",
-								"bh_tag_close",
-								"bh_tag_content",
-								"bh_double_quote",
-								"bh_double_quote_center",
-								"bh_double_quote_open",
-								"bh_double_quote_close",
-								"bh_double_quote_content"
-							],
-							"incomplete_sync": null,
-							"remote_loading": false,
-							"synced": false,
-							"syntax": "Packages/PHP/PHP.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 7,
-					"type": "text"
-				},
-				{
-					"buffer": 5,
-					"file": "src/Response/ContentType.php",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 1772,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								1772,
-								1772
-							]
-						],
-						"settings":
-						{
-							"BracketHighlighterBusy": false,
-							"bh_regions":
-							[
-								"bh_unmatched",
-								"bh_unmatched_center",
-								"bh_unmatched_open",
-								"bh_unmatched_close",
-								"bh_unmatched_content",
-								"bh_round",
-								"bh_round_center",
-								"bh_round_open",
-								"bh_round_close",
-								"bh_round_content",
-								"bh_regex",
-								"bh_regex_center",
-								"bh_regex_open",
-								"bh_regex_close",
-								"bh_regex_content",
-								"bh_default",
-								"bh_default_center",
-								"bh_default_open",
-								"bh_default_close",
-								"bh_default_content",
-								"bh_c_define",
-								"bh_c_define_center",
-								"bh_c_define_open",
-								"bh_c_define_close",
-								"bh_c_define_content",
-								"bh_curly",
-								"bh_curly_center",
-								"bh_curly_open",
-								"bh_curly_close",
-								"bh_curly_content",
-								"bh_angle",
-								"bh_angle_center",
-								"bh_angle_open",
-								"bh_angle_close",
-								"bh_angle_content",
-								"bh_square",
-								"bh_square_center",
-								"bh_square_open",
-								"bh_square_close",
-								"bh_square_content",
-								"bh_single_quote",
-								"bh_single_quote_center",
-								"bh_single_quote_open",
-								"bh_single_quote_close",
-								"bh_single_quote_content",
-								"bh_tag",
-								"bh_tag_center",
-								"bh_tag_open",
-								"bh_tag_close",
-								"bh_tag_content",
-								"bh_double_quote",
-								"bh_double_quote_center",
-								"bh_double_quote_open",
-								"bh_double_quote_close",
-								"bh_double_quote_content"
-							],
-							"incomplete_sync": null,
-							"remote_loading": false,
-							"synced": false,
-							"syntax": "Packages/PHP/PHP.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 100.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 8,
-					"type": "text"
-				},
-				{
-					"buffer": 6,
-					"file": "src/Response/Header.php",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 868,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								405,
-								405
-							]
-						],
-						"settings":
-						{
-							"BracketHighlighterBusy": false,
-							"auto_complete": false,
-							"bh_regions":
-							[
-								"bh_unmatched",
-								"bh_unmatched_center",
-								"bh_unmatched_open",
-								"bh_unmatched_close",
-								"bh_unmatched_content",
-								"bh_round",
-								"bh_round_center",
-								"bh_round_open",
-								"bh_round_close",
-								"bh_round_content",
-								"bh_regex",
-								"bh_regex_center",
-								"bh_regex_open",
-								"bh_regex_close",
-								"bh_regex_content",
-								"bh_default",
-								"bh_default_center",
-								"bh_default_open",
-								"bh_default_close",
-								"bh_default_content",
-								"bh_c_define",
-								"bh_c_define_center",
-								"bh_c_define_open",
-								"bh_c_define_close",
-								"bh_c_define_content",
-								"bh_curly",
-								"bh_curly_center",
-								"bh_curly_open",
-								"bh_curly_close",
-								"bh_curly_content",
-								"bh_angle",
-								"bh_angle_center",
-								"bh_angle_open",
-								"bh_angle_close",
-								"bh_angle_content",
-								"bh_square",
-								"bh_square_center",
-								"bh_square_open",
-								"bh_square_close",
-								"bh_square_content",
-								"bh_single_quote",
-								"bh_single_quote_center",
-								"bh_single_quote_open",
-								"bh_single_quote_close",
-								"bh_single_quote_content",
-								"bh_tag",
-								"bh_tag_center",
-								"bh_tag_open",
-								"bh_tag_close",
-								"bh_tag_content",
-								"bh_double_quote",
-								"bh_double_quote_center",
-								"bh_double_quote_open",
-								"bh_double_quote_close",
-								"bh_double_quote_content"
-							],
-							"incomplete_sync": null,
-							"remote_loading": false,
-							"sftp_duplicate_views": 0,
-							"synced": false,
-							"syntax": "Packages/PHP/PHP.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 5,
-					"type": "text"
-				},
-				{
-					"buffer": 7,
-					"file": "composer.json",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 545,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								545,
-								545
-							]
-						],
-						"settings":
-						{
-							"BracketHighlighterBusy": false,
-							"auto_complete": true,
-							"bh_regions":
-							[
-								"bh_unmatched",
-								"bh_unmatched_center",
-								"bh_unmatched_open",
-								"bh_unmatched_close",
-								"bh_unmatched_content",
-								"bh_round",
-								"bh_round_center",
-								"bh_round_open",
-								"bh_round_close",
-								"bh_round_content",
-								"bh_regex",
-								"bh_regex_center",
-								"bh_regex_open",
-								"bh_regex_close",
-								"bh_regex_content",
-								"bh_default",
-								"bh_default_center",
-								"bh_default_open",
-								"bh_default_close",
-								"bh_default_content",
-								"bh_c_define",
-								"bh_c_define_center",
-								"bh_c_define_open",
-								"bh_c_define_close",
-								"bh_c_define_content",
-								"bh_curly",
-								"bh_curly_center",
-								"bh_curly_open",
-								"bh_curly_close",
-								"bh_curly_content",
-								"bh_angle",
-								"bh_angle_center",
-								"bh_angle_open",
-								"bh_angle_close",
-								"bh_angle_content",
-								"bh_square",
-								"bh_square_center",
-								"bh_square_open",
-								"bh_square_close",
-								"bh_square_content",
-								"bh_single_quote",
-								"bh_single_quote_center",
-								"bh_single_quote_open",
-								"bh_single_quote_close",
-								"bh_single_quote_content",
-								"bh_tag",
-								"bh_tag_center",
-								"bh_tag_open",
-								"bh_tag_close",
-								"bh_tag_content",
-								"bh_double_quote",
-								"bh_double_quote_center",
-								"bh_double_quote_open",
-								"bh_double_quote_close",
-								"bh_double_quote_content"
-							],
-							"incomplete_sync": null,
-							"remote_loading": false,
-							"synced": false,
-							"syntax": "Packages/JavaScript/JSON.tmLanguage",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 6,
-					"type": "text"
-				},
-				{
-					"buffer": 8,
+					"buffer": 3,
 					"file": "vendor/psr/http-message/src/ResponseInterface.php",
 					"semi_transient": false,
 					"settings":
@@ -1365,11 +951,11 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 12,
+					"stack_index": 11,
 					"type": "text"
 				},
 				{
-					"buffer": 9,
+					"buffer": 4,
 					"file": "vendor/psr/http-message/src/MessageInterface.php",
 					"semi_transient": false,
 					"settings":
@@ -1381,8 +967,8 @@
 						"selection":
 						[
 							[
-								4086,
-								4086
+								5912,
+								5912
 							]
 						],
 						"settings":
@@ -1391,26 +977,36 @@
 							"auto_complete": false,
 							"bh_regions":
 							[
-								"bh_regex",
-								"bh_regex_center",
-								"bh_regex_open",
-								"bh_regex_close",
-								"bh_regex_content",
+								"bh_default",
+								"bh_default_center",
+								"bh_default_open",
+								"bh_default_close",
+								"bh_default_content",
+								"bh_double_quote",
+								"bh_double_quote_center",
+								"bh_double_quote_open",
+								"bh_double_quote_close",
+								"bh_double_quote_content",
+								"bh_tag",
+								"bh_tag_center",
+								"bh_tag_open",
+								"bh_tag_close",
+								"bh_tag_content",
+								"bh_unmatched",
+								"bh_unmatched_center",
+								"bh_unmatched_open",
+								"bh_unmatched_close",
+								"bh_unmatched_content",
 								"bh_curly",
 								"bh_curly_center",
 								"bh_curly_open",
 								"bh_curly_close",
 								"bh_curly_content",
-								"bh_single_quote",
-								"bh_single_quote_center",
-								"bh_single_quote_open",
-								"bh_single_quote_close",
-								"bh_single_quote_content",
-								"bh_angle",
-								"bh_angle_center",
-								"bh_angle_open",
-								"bh_angle_close",
-								"bh_angle_content",
+								"bh_regex",
+								"bh_regex_center",
+								"bh_regex_open",
+								"bh_regex_close",
+								"bh_regex_content",
 								"bh_square",
 								"bh_square_center",
 								"bh_square_open",
@@ -1421,31 +1017,21 @@
 								"bh_round_open",
 								"bh_round_close",
 								"bh_round_content",
-								"bh_default",
-								"bh_default_center",
-								"bh_default_open",
-								"bh_default_close",
-								"bh_default_content",
-								"bh_tag",
-								"bh_tag_center",
-								"bh_tag_open",
-								"bh_tag_close",
-								"bh_tag_content",
-								"bh_double_quote",
-								"bh_double_quote_center",
-								"bh_double_quote_open",
-								"bh_double_quote_close",
-								"bh_double_quote_content",
 								"bh_c_define",
 								"bh_c_define_center",
 								"bh_c_define_open",
 								"bh_c_define_close",
 								"bh_c_define_content",
-								"bh_unmatched",
-								"bh_unmatched_center",
-								"bh_unmatched_open",
-								"bh_unmatched_close",
-								"bh_unmatched_content"
+								"bh_angle",
+								"bh_angle_center",
+								"bh_angle_open",
+								"bh_angle_close",
+								"bh_angle_content",
+								"bh_single_quote",
+								"bh_single_quote_center",
+								"bh_single_quote_open",
+								"bh_single_quote_close",
+								"bh_single_quote_content"
 							],
 							"incomplete_sync": null,
 							"remote_loading": false,
@@ -1455,10 +1041,10 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 1590.0,
+						"translation.y": 2421.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 11,
+					"stack_index": 7,
 					"type": "text"
 				}
 			]
@@ -1468,20 +1054,574 @@
 			"sheets":
 			[
 				{
-					"buffer": 10,
-					"file": "src/Response/Status.php",
+					"buffer": 5,
+					"file": "src/Response/Header.php",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 2198,
+						"buffer_size": 1382,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								227,
-								227
+								55,
+								55
+							]
+						],
+						"settings":
+						{
+							"BracketHighlighterBusy": false,
+							"auto_complete": false,
+							"bh_regions":
+							[
+								"bh_default",
+								"bh_default_center",
+								"bh_default_open",
+								"bh_default_close",
+								"bh_default_content",
+								"bh_double_quote",
+								"bh_double_quote_center",
+								"bh_double_quote_open",
+								"bh_double_quote_close",
+								"bh_double_quote_content",
+								"bh_tag",
+								"bh_tag_center",
+								"bh_tag_open",
+								"bh_tag_close",
+								"bh_tag_content",
+								"bh_unmatched",
+								"bh_unmatched_center",
+								"bh_unmatched_open",
+								"bh_unmatched_close",
+								"bh_unmatched_content",
+								"bh_curly",
+								"bh_curly_center",
+								"bh_curly_open",
+								"bh_curly_close",
+								"bh_curly_content",
+								"bh_regex",
+								"bh_regex_center",
+								"bh_regex_open",
+								"bh_regex_close",
+								"bh_regex_content",
+								"bh_square",
+								"bh_square_center",
+								"bh_square_open",
+								"bh_square_close",
+								"bh_square_content",
+								"bh_round",
+								"bh_round_center",
+								"bh_round_open",
+								"bh_round_close",
+								"bh_round_content",
+								"bh_c_define",
+								"bh_c_define_center",
+								"bh_c_define_open",
+								"bh_c_define_close",
+								"bh_c_define_content",
+								"bh_angle",
+								"bh_angle_center",
+								"bh_angle_open",
+								"bh_angle_close",
+								"bh_angle_content",
+								"bh_single_quote",
+								"bh_single_quote_center",
+								"bh_single_quote_open",
+								"bh_single_quote_close",
+								"bh_single_quote_content"
+							],
+							"history_list_is_closing": true,
+							"incomplete_sync": null,
+							"remote_loading": false,
+							"sftp_duplicate_views": 0,
+							"synced": false,
+							"syntax": "Packages/PHP/PHP.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 178.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 3,
+					"type": "text"
+				},
+				{
+					"buffer": 6,
+					"file": "src/Response/Status.php",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 4029,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								885,
+								885
+							]
+						],
+						"settings":
+						{
+							"BracketHighlighterBusy": false,
+							"auto_complete": false,
+							"bh_regions":
+							[
+								"bh_default",
+								"bh_default_center",
+								"bh_default_open",
+								"bh_default_close",
+								"bh_default_content",
+								"bh_double_quote",
+								"bh_double_quote_center",
+								"bh_double_quote_open",
+								"bh_double_quote_close",
+								"bh_double_quote_content",
+								"bh_tag",
+								"bh_tag_center",
+								"bh_tag_open",
+								"bh_tag_close",
+								"bh_tag_content",
+								"bh_unmatched",
+								"bh_unmatched_center",
+								"bh_unmatched_open",
+								"bh_unmatched_close",
+								"bh_unmatched_content",
+								"bh_curly",
+								"bh_curly_center",
+								"bh_curly_open",
+								"bh_curly_close",
+								"bh_curly_content",
+								"bh_regex",
+								"bh_regex_center",
+								"bh_regex_open",
+								"bh_regex_close",
+								"bh_regex_content",
+								"bh_square",
+								"bh_square_center",
+								"bh_square_open",
+								"bh_square_close",
+								"bh_square_content",
+								"bh_round",
+								"bh_round_center",
+								"bh_round_open",
+								"bh_round_close",
+								"bh_round_content",
+								"bh_c_define",
+								"bh_c_define_center",
+								"bh_c_define_open",
+								"bh_c_define_close",
+								"bh_c_define_content",
+								"bh_angle",
+								"bh_angle_center",
+								"bh_angle_open",
+								"bh_angle_close",
+								"bh_angle_content",
+								"bh_single_quote",
+								"bh_single_quote_center",
+								"bh_single_quote_open",
+								"bh_single_quote_close",
+								"bh_single_quote_content"
+							],
+							"history_list_is_closing": true,
+							"incomplete_sync": null,
+							"remote_loading": false,
+							"synced": false,
+							"syntax": "Packages/PHP/PHP.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 4,
+					"type": "text"
+				},
+				{
+					"buffer": 7,
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1408,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								1408
+							]
+						],
+						"settings":
+						{
+							"BracketHighlighterBusy": false,
+							"auto_complete": false,
+							"bh_regions":
+							[
+								"bh_default",
+								"bh_default_center",
+								"bh_default_open",
+								"bh_default_close",
+								"bh_default_content",
+								"bh_double_quote",
+								"bh_double_quote_center",
+								"bh_double_quote_open",
+								"bh_double_quote_close",
+								"bh_double_quote_content",
+								"bh_tag",
+								"bh_tag_center",
+								"bh_tag_open",
+								"bh_tag_close",
+								"bh_tag_content",
+								"bh_unmatched",
+								"bh_unmatched_center",
+								"bh_unmatched_open",
+								"bh_unmatched_close",
+								"bh_unmatched_content",
+								"bh_curly",
+								"bh_curly_center",
+								"bh_curly_open",
+								"bh_curly_close",
+								"bh_curly_content",
+								"bh_regex",
+								"bh_regex_center",
+								"bh_regex_open",
+								"bh_regex_close",
+								"bh_regex_content",
+								"bh_square",
+								"bh_square_center",
+								"bh_square_open",
+								"bh_square_close",
+								"bh_square_content",
+								"bh_round",
+								"bh_round_center",
+								"bh_round_open",
+								"bh_round_close",
+								"bh_round_content",
+								"bh_c_define",
+								"bh_c_define_center",
+								"bh_c_define_open",
+								"bh_c_define_close",
+								"bh_c_define_content",
+								"bh_angle",
+								"bh_angle_center",
+								"bh_angle_open",
+								"bh_angle_close",
+								"bh_angle_content",
+								"bh_single_quote",
+								"bh_single_quote_center",
+								"bh_single_quote_open",
+								"bh_single_quote_close",
+								"bh_single_quote_content"
+							],
+							"incomplete_sync": null,
+							"syntax": "Packages/PHP/PHP.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 5,
+					"type": "text"
+				},
+				{
+					"buffer": 8,
+					"file": "tests/status.php",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1113,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								112,
+								112
+							]
+						],
+						"settings":
+						{
+							"BracketHighlighterBusy": false,
+							"auto_complete": false,
+							"bh_regions":
+							[
+								"bh_default",
+								"bh_default_center",
+								"bh_default_open",
+								"bh_default_close",
+								"bh_default_content",
+								"bh_double_quote",
+								"bh_double_quote_center",
+								"bh_double_quote_open",
+								"bh_double_quote_close",
+								"bh_double_quote_content",
+								"bh_tag",
+								"bh_tag_center",
+								"bh_tag_open",
+								"bh_tag_close",
+								"bh_tag_content",
+								"bh_unmatched",
+								"bh_unmatched_center",
+								"bh_unmatched_open",
+								"bh_unmatched_close",
+								"bh_unmatched_content",
+								"bh_curly",
+								"bh_curly_center",
+								"bh_curly_open",
+								"bh_curly_close",
+								"bh_curly_content",
+								"bh_regex",
+								"bh_regex_center",
+								"bh_regex_open",
+								"bh_regex_close",
+								"bh_regex_content",
+								"bh_square",
+								"bh_square_center",
+								"bh_square_open",
+								"bh_square_close",
+								"bh_square_content",
+								"bh_round",
+								"bh_round_center",
+								"bh_round_open",
+								"bh_round_close",
+								"bh_round_content",
+								"bh_c_define",
+								"bh_c_define_center",
+								"bh_c_define_open",
+								"bh_c_define_close",
+								"bh_c_define_content",
+								"bh_angle",
+								"bh_angle_center",
+								"bh_angle_open",
+								"bh_angle_close",
+								"bh_angle_content",
+								"bh_single_quote",
+								"bh_single_quote_center",
+								"bh_single_quote_open",
+								"bh_single_quote_close",
+								"bh_single_quote_content"
+							],
+							"history_list_is_closing": true,
+							"incomplete_sync": null,
+							"remote_loading": false,
+							"synced": false,
+							"syntax": "Packages/PHP/PHP.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 9,
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"file": "vendor/psr/http-message/src/MessageInterface.php",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 6895,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								6860,
+								6868
+							]
+						],
+						"settings":
+						{
+							"BracketHighlighterBusy": false,
+							"auto_complete": false,
+							"bh_regions":
+							[
+								"bh_default",
+								"bh_default_center",
+								"bh_default_open",
+								"bh_default_close",
+								"bh_default_content",
+								"bh_double_quote",
+								"bh_double_quote_center",
+								"bh_double_quote_open",
+								"bh_double_quote_close",
+								"bh_double_quote_content",
+								"bh_tag",
+								"bh_tag_center",
+								"bh_tag_open",
+								"bh_tag_close",
+								"bh_tag_content",
+								"bh_unmatched",
+								"bh_unmatched_center",
+								"bh_unmatched_open",
+								"bh_unmatched_close",
+								"bh_unmatched_content",
+								"bh_curly",
+								"bh_curly_center",
+								"bh_curly_open",
+								"bh_curly_close",
+								"bh_curly_content",
+								"bh_regex",
+								"bh_regex_center",
+								"bh_regex_open",
+								"bh_regex_close",
+								"bh_regex_content",
+								"bh_square",
+								"bh_square_center",
+								"bh_square_open",
+								"bh_square_close",
+								"bh_square_content",
+								"bh_round",
+								"bh_round_center",
+								"bh_round_open",
+								"bh_round_close",
+								"bh_round_content",
+								"bh_c_define",
+								"bh_c_define_center",
+								"bh_c_define_open",
+								"bh_c_define_close",
+								"bh_c_define_content",
+								"bh_angle",
+								"bh_angle_center",
+								"bh_angle_open",
+								"bh_angle_close",
+								"bh_angle_content",
+								"bh_single_quote",
+								"bh_single_quote_center",
+								"bh_single_quote_open",
+								"bh_single_quote_close",
+								"bh_single_quote_content"
+							],
+							"incomplete_sync": null,
+							"remote_loading": false,
+							"synced": false,
+							"syntax": "Packages/PHP/PHP.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": -0.0,
+						"translation.y": 2686.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 8,
+					"type": "text"
+				},
+				{
+					"buffer": 9,
+					"file": "src/Response/CacheControl.php",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1048,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								542,
+								542
+							]
+						],
+						"settings":
+						{
+							"BracketHighlighterBusy": false,
+							"auto_complete": false,
+							"bh_regions":
+							[
+								"bh_default",
+								"bh_default_center",
+								"bh_default_open",
+								"bh_default_close",
+								"bh_default_content",
+								"bh_double_quote",
+								"bh_double_quote_center",
+								"bh_double_quote_open",
+								"bh_double_quote_close",
+								"bh_double_quote_content",
+								"bh_tag",
+								"bh_tag_center",
+								"bh_tag_open",
+								"bh_tag_close",
+								"bh_tag_content",
+								"bh_unmatched",
+								"bh_unmatched_center",
+								"bh_unmatched_open",
+								"bh_unmatched_close",
+								"bh_unmatched_content",
+								"bh_curly",
+								"bh_curly_center",
+								"bh_curly_open",
+								"bh_curly_close",
+								"bh_curly_content",
+								"bh_regex",
+								"bh_regex_center",
+								"bh_regex_open",
+								"bh_regex_close",
+								"bh_regex_content",
+								"bh_square",
+								"bh_square_center",
+								"bh_square_open",
+								"bh_square_close",
+								"bh_square_content",
+								"bh_round",
+								"bh_round_center",
+								"bh_round_open",
+								"bh_round_close",
+								"bh_round_content",
+								"bh_c_define",
+								"bh_c_define_center",
+								"bh_c_define_open",
+								"bh_c_define_close",
+								"bh_c_define_content",
+								"bh_angle",
+								"bh_angle_center",
+								"bh_angle_open",
+								"bh_angle_close",
+								"bh_angle_content",
+								"bh_single_quote",
+								"bh_single_quote_center",
+								"bh_single_quote_open",
+								"bh_single_quote_close",
+								"bh_single_quote_content"
+							],
+							"history_list_is_closing": true,
+							"incomplete_sync": null,
+							"remote_loading": false,
+							"synced": false,
+							"syntax": "Packages/PHP/PHP.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 6,
+					"type": "text"
+				},
+				{
+					"buffer": 5,
+					"file": "src/Response/Header.php",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1382,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								775,
+								775
 							]
 						],
 						"settings":
@@ -1546,190 +1686,6 @@
 								"bh_double_quote_close",
 								"bh_double_quote_content"
 							],
-							"history_list_is_closing": true,
-							"incomplete_sync": null,
-							"remote_loading": false,
-							"synced": false,
-							"syntax": "Packages/PHP/PHP.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 135.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 4,
-					"type": "text"
-				},
-				{
-					"buffer": 11,
-					"file": "testHttp.php",
-					"semi_transient": true,
-					"settings":
-					{
-						"buffer_size": 907,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								359,
-								359
-							]
-						],
-						"settings":
-						{
-							"BracketHighlighterBusy": false,
-							"bh_regions":
-							[
-								"bh_regex",
-								"bh_regex_center",
-								"bh_regex_open",
-								"bh_regex_close",
-								"bh_regex_content",
-								"bh_curly",
-								"bh_curly_center",
-								"bh_curly_open",
-								"bh_curly_close",
-								"bh_curly_content",
-								"bh_single_quote",
-								"bh_single_quote_center",
-								"bh_single_quote_open",
-								"bh_single_quote_close",
-								"bh_single_quote_content",
-								"bh_angle",
-								"bh_angle_center",
-								"bh_angle_open",
-								"bh_angle_close",
-								"bh_angle_content",
-								"bh_square",
-								"bh_square_center",
-								"bh_square_open",
-								"bh_square_close",
-								"bh_square_content",
-								"bh_round",
-								"bh_round_center",
-								"bh_round_open",
-								"bh_round_close",
-								"bh_round_content",
-								"bh_default",
-								"bh_default_center",
-								"bh_default_open",
-								"bh_default_close",
-								"bh_default_content",
-								"bh_tag",
-								"bh_tag_center",
-								"bh_tag_open",
-								"bh_tag_close",
-								"bh_tag_content",
-								"bh_double_quote",
-								"bh_double_quote_center",
-								"bh_double_quote_open",
-								"bh_double_quote_close",
-								"bh_double_quote_content",
-								"bh_c_define",
-								"bh_c_define_center",
-								"bh_c_define_open",
-								"bh_c_define_close",
-								"bh_c_define_content",
-								"bh_unmatched",
-								"bh_unmatched_center",
-								"bh_unmatched_open",
-								"bh_unmatched_close",
-								"bh_unmatched_content"
-							],
-							"history_list_is_closing": true,
-							"incomplete_sync": null,
-							"remote_loading": false,
-							"synced": false,
-							"syntax": "Packages/PHP/PHP.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 10,
-					"type": "text"
-				},
-				{
-					"buffer": 6,
-					"file": "src/Response/Header.php",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 868,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								645,
-								645
-							]
-						],
-						"settings":
-						{
-							"BracketHighlighterBusy": false,
-							"auto_complete": false,
-							"bh_regions":
-							[
-								"bh_regex",
-								"bh_regex_center",
-								"bh_regex_open",
-								"bh_regex_close",
-								"bh_regex_content",
-								"bh_curly",
-								"bh_curly_center",
-								"bh_curly_open",
-								"bh_curly_close",
-								"bh_curly_content",
-								"bh_single_quote",
-								"bh_single_quote_center",
-								"bh_single_quote_open",
-								"bh_single_quote_close",
-								"bh_single_quote_content",
-								"bh_angle",
-								"bh_angle_center",
-								"bh_angle_open",
-								"bh_angle_close",
-								"bh_angle_content",
-								"bh_square",
-								"bh_square_center",
-								"bh_square_open",
-								"bh_square_close",
-								"bh_square_content",
-								"bh_round",
-								"bh_round_center",
-								"bh_round_open",
-								"bh_round_close",
-								"bh_round_content",
-								"bh_default",
-								"bh_default_center",
-								"bh_default_open",
-								"bh_default_close",
-								"bh_default_content",
-								"bh_tag",
-								"bh_tag_center",
-								"bh_tag_open",
-								"bh_tag_close",
-								"bh_tag_content",
-								"bh_double_quote",
-								"bh_double_quote_center",
-								"bh_double_quote_open",
-								"bh_double_quote_close",
-								"bh_double_quote_content",
-								"bh_c_define",
-								"bh_c_define_center",
-								"bh_c_define_open",
-								"bh_c_define_close",
-								"bh_c_define_content",
-								"bh_unmatched",
-								"bh_unmatched_center",
-								"bh_unmatched_open",
-								"bh_unmatched_close",
-								"bh_unmatched_content"
-							],
 							"incomplete_sync": null,
 							"remote_loading": false,
 							"sftp_duplicate_views": 0,
@@ -1738,10 +1694,10 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 25.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 9,
+					"stack_index": 10,
 					"type": "text"
 				}
 			]
@@ -1775,7 +1731,7 @@
 		"cols":
 		[
 			0.0,
-			0.524686003074,
+			0.606552357624,
 			1.0
 		],
 		"rows":
@@ -1811,8 +1767,68 @@
 		"selected_items":
 		[
 			[
+				"contentle",
+				"src\\Response\\ContentLength.php"
+			],
+			[
+				"head",
+				"src\\Response\\ResponseHeaders.php"
+			],
+			[
+				"response",
+				"src\\Response.php"
+			],
+			[
+				"hea",
+				"src\\Response\\Header.php"
+			],
+			[
+				"cac",
+				"src\\Response\\CacheControl.php"
+			],
+			[
+				"res",
+				"src\\Response.php"
+			],
+			[
+				"message",
+				"vendor\\psr\\http-message\\src\\MessageInterface.php"
+			],
+			[
+				"strrea",
+				"vendor\\psr\\http-message\\src\\StreamInterface.php"
+			],
+			[
 				"me",
 				"src\\Message.php"
+			],
+			[
+				"messa",
+				"vendor\\psr\\http-message\\src\\MessageInterface.php"
+			],
+			[
+				"mess",
+				"src\\Message.php"
+			],
+			[
+				"cache",
+				"src\\Response\\CacheControl.php"
+			],
+			[
+				"conte",
+				"src\\Response\\ContentType.php"
+			],
+			[
+				"stat",
+				"src\\Response\\Status.php"
+			],
+			[
+				"cach",
+				"src\\Response\\CacheControl.php"
+			],
+			[
+				"status",
+				"tests\\status.php"
 			],
 			[
 				"",
@@ -1829,10 +1845,6 @@
 			[
 				"http",
 				"http.php"
-			],
-			[
-				"conte",
-				"response\\ContentType.php"
 			],
 			[
 				"aw",
@@ -1969,10 +1981,6 @@
 			[
 				"index.",
 				"admin\\index.html"
-			],
-			[
-				"res",
-				"api\\application\\controllers\\Restful_controller.php"
 			],
 			[
 				"routes",
@@ -2269,58 +2277,6 @@
 			[
 				"enti",
 				"admin\\api\\application\\controllers\\core\\entity.php"
-			],
-			[
-				"index.ht",
-				"admin\\app\\index.html"
-			],
-			[
-				"in",
-				".phpintel\\index"
-			],
-			[
-				"view",
-				"admin\\api\\application\\controllers\\entities\\view_log.php"
-			],
-			[
-				"curd",
-				"admin\\api\\application\\controllers\\core\\crud_service.php"
-			],
-			[
-				"crud_ser",
-				"admin\\application\\controllers\\core\\crud_service.php"
-			],
-			[
-				"tableda",
-				"admin\\application\\models\\table_data_gateway.php"
-			],
-			[
-				"rot",
-				"admin\\application\\config\\routes.php"
-			],
-			[
-				"config.php",
-				"neurostashh\\application\\config\\config.php"
-			],
-			[
-				"database",
-				"neurostashh\\application\\config\\database.php"
-			],
-			[
-				"cru",
-				"application\\controllers\\crud_service.php"
-			],
-			[
-				"reques",
-				"application\\controllers\\core\\request.php"
-			],
-			[
-				"log.ph",
-				"application\\controllers\\entities\\logs.php"
-			],
-			[
-				"log",
-				"system\\core\\Log.php"
 			]
 		],
 		"width": 0.0
@@ -2383,7 +2339,7 @@
 	"show_open_files": false,
 	"show_tabs": true,
 	"side_bar_visible": true,
-	"side_bar_width": 257.0,
+	"side_bar_width": 287.0,
 	"status_bar_visible": true,
 	"template_settings":
 	{
