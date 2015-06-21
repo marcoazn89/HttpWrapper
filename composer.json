@@ -1,9 +1,9 @@
 {
-    "name": "marcoazn89/plankter",
+    "name": "marcoazn89/HttpWrapper",
     "license": "MIT",
     "description": "An HTTP wraper library",
-    "keywords": ["library", "http"],
-    "homepage": "https://github.com/marcoazn89/plankter",
+    "keywords": ["library", "http", "php"],
+    "homepage": "https://github.com/marcoazn89/HttpWrapper",
     "authors": [
         {
             "name": "Marco A. Chang",
@@ -12,12 +12,11 @@
         }
     ],
     "require": {
-        "php": ">=5.3.0",
-        "psr/http-message": "1.0"
+        "php": ">=5.3.0"
     },
     "autoload": {
         "psr-4": {
-            "HTTP\\":"src/"
+            "HTTP\\":""
         }
     }
 }
