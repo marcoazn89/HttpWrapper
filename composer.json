@@ -1,8 +1,8 @@
 {
-    "name": "marcoazn89/plankter",
+    "name": "marcoazn89/HttpWrapper",
     "license": "MIT",
     "description": "An HTTP wraper library",
-    "keywords": ["library", "http"],
+    "keywords": ["library", "http", "php"],
     "homepage": "https://github.com/marcoazn89/plankter",
     "authors": [
         {
