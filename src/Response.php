@@ -1,10 +1,15 @@
 <?php
 /**
- * Slim Framework (http://slimframework.com)
+ * HTTP Wrapper
  *
- * @link      https://github.com/codeguy/Slim
- * @copyright Copyright (c) 2011-2015 Josh Lockhart
- * @license   https://github.com/codeguy/Slim/blob/master/LICENSE (MIT License)
+ * This a PSR-7 compatible package used as a wrapper for HTTP response headers. It allows
+ * you to easily write proper headers with the use of the constants that can be found in
+ * each of the header classes. Also, it has the capability to do content negotiation.
+ *
+ * @link      https://github.com/marcoazn89/http-wrapper
+ * @copyright Copyright (c) 2015 Marco A. Chang
+ * @license   https://github.com/marcoazn89/http-wrapper/blob/master/LICENSE (MIT)
+ * @author  	Marco A. Chang 		contact@marcochang.com
  */
 
 namespace HTTP;
@@ -29,8 +34,17 @@ class Response implements \Psr\Http\Message\ResponseInterface, Response\Response
 		if( ! array_key_exists('status', $this->headers)) {
 			$this->status = Response\Status::getInstance()->set();
 		}
+
+		$this->body = new Body(fopen('php://temp', 'r+'));
 	}
 
+	/**
+	 * Set an HTTP status code. This is a wrapper for Response\Status
+	 * which can be used on its own.
+	 * @param  int 			$code 		The status code. It is suggested to use constants from
+	 *                        		Response\Status::CODE*
+	 * @param  boolean 	$init 		Send the header right away.
+	 */
 	public function status($code, $init = false) {
 		$this->status = Response\Status::getInstance()->setCode($code);
 	}
@@ -119,6 +133,10 @@ class Response implements \Psr\Http\Message\ResponseInterface, Response\Response
 		return $new;
 	}
 
+	public function body($body) {
+		$this->body = $body;
+	}
+
 	public function getBody() {
 		return $this->body;
 	}
@@ -129,6 +147,12 @@ class Response implements \Psr\Http\Message\ResponseInterface, Response\Response
 
 		return $new;
 	}
+
+	public function write($data) {
+    $this->getBody()->write($data);
+
+    return $this;
+  }
 
 	public function getStatusCode() {
 		return $this->status->getCode();
@@ -234,18 +258,5 @@ class Response implements \Psr\Http\Message\ResponseInterface, Response\Response
 			self::$headers['cache'] = $c;
 		}
 	}
-
-	public static function body($content) {
-		self::$body = $content;
-	}
-
-	public static function sendResponse() {
-		foreach(self::$headers as $k => $header) {
-			$header->sendHeader();
-		}
-
-		if( ! empty(self::$body)) {
-			echo self::$body;
-		}
-	}*/
+*/
 }
