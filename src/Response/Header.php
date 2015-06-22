@@ -55,7 +55,7 @@ abstract class Header {
 		if(empty($this->values)) {
 			$this->setDefaults();
 		}
-		echo "{$this->getName()}: {$this->getString()}";
+
 		header("{$this->getName()}: {$this->getString()}");
 	}
 
