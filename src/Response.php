@@ -205,7 +205,7 @@ class Response implements \Psr\Http\Message\ResponseInterface, Response\Response
 	}
 
 	public function negotiateContentType($strongNegotiation = false) {
-		$negotiation = $this->negotiate(Request\AcceptType::getContent(), Request\TypeSupport::getSupport());
+		$negotiation = $this->negotiate(Request\AcceptType::getContent(), Support\TypeSupport::getSupport());
 
 		$content = '';
 
@@ -217,7 +217,7 @@ class Response implements \Psr\Http\Message\ResponseInterface, Response\Response
 				$this->fail();
 			}
 			else {
-				$content =  Request\TypeSupport::getSupport();
+				$content =  Support\TypeSupport::getSupport();
 				$content = $content[0];
 			}
 		}
