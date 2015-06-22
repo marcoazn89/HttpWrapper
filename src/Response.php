@@ -112,7 +112,7 @@ class Response implements \Psr\Http\Message\ResponseInterface, Response\Response
 			case strtolower(self::CONTENT_LENGTH):
 				return Response\ContentLength::getInstance();
 				break;
-			case strtolower(self::ContentType):
+			case strtolower(self::CONTENT_TYPE):
 				return Response\ContentType::getInstance();
 				break;
 			default:
