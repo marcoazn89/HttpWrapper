@@ -1,7 +1,5 @@
 <?php
-namespace HTTP\support;
-require_once('ContentSupport.php');
-use HTTP\support\ContentSupport;
+namespace HTTP\Support;
 
 class TypeSupport extends ContentSupport {
 

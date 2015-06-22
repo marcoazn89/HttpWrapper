@@ -1,8 +1,5 @@
 <?php
-namespace HTTP\request;
-require_once('RequestHeader.php');
-
-use HTTP\request\RequestHeader;
+namespace HTTP\Request;
 
 class AcceptType extends RequestHeader {
 

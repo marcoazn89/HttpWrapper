@@ -205,7 +205,7 @@ class Response implements \Psr\Http\Message\ResponseInterface, Response\Response
 	}
 
 	public function negotiateContentType($strongNegotiation = false) {
-		$negotiation = $this->negotiate(AcceptType::getContent(), TypeSupport::getSupport());
+		$negotiation = $this->negotiate(Request\AcceptType::getContent(), Request\TypeSupport::getSupport());
 
 		$content = '';
 
@@ -217,7 +217,7 @@ class Response implements \Psr\Http\Message\ResponseInterface, Response\Response
 				$this->fail();
 			}
 			else {
-				$content = TypeSupport::getSupport();
+				$content =  Request\TypeSupport::getSupport();
 				$content = $content[0];
 			}
 		}
@@ -232,14 +232,14 @@ class Response implements \Psr\Http\Message\ResponseInterface, Response\Response
 	}
 
 	public function fail() {
-		$supported = TypeSupport::getSupport();
-		$clientSupport = AcceptType::getContent();
+		$supported =  Request\TypeSupport::getSupport();
+		$clientSupport =  Request\AcceptType::getContent();
 
 		$supported = implode(',', $supported);
 		$clientSupport = implode(',',$clientSupport);
 
 		self::status(406);
-		self::contentType(ContentType::TEXT);
+		self::contentType(Response\ContentType::TEXT);
 		self::body("NOT SUPPORTED\nThis server does not support {$supported}.\nSupported formats: {$clientSupport}");
 		self::sendResponse();
 	}

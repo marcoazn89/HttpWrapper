@@ -1,5 +1,5 @@
 <?php
-namespace HTTP\request;
+namespace HTTP\Request;
 
 abstract class RequestHeader {
 	protected static $content = array();
