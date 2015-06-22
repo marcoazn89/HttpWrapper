@@ -205,7 +205,7 @@ class Response implements \Psr\Http\Message\ResponseInterface, Response\Response
 	}
 
 	public function negotiateContentType($strongNegotiation = false) {
-		$negotiation = ContentNegotiation::negotiate(AcceptType::getContent(), TypeSupport::getSupport());
+		$negotiation = $this->negotiate(AcceptType::getContent(), TypeSupport::getSupport());
 
 		$content = '';
 
@@ -223,6 +223,12 @@ class Response implements \Psr\Http\Message\ResponseInterface, Response\Response
 		}
 
 		return $content;
+	}
+
+	public function negotiate($requestedContent, $supportedContent) {
+		$negotiation = array_intersect($requestedContent, $supportedContent);
+
+		return $negotiation;
 	}
 
 	public function fail() {
