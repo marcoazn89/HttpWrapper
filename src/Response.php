@@ -116,7 +116,7 @@ class Response implements \Psr\Http\Message\ResponseInterface, Response\Response
 				return Response\ContentType::getInstance();
 				break;
 			default:
-				die("shit");
+				die("Cannot map header {$name}");
 		}
 	}
 
@@ -129,7 +129,7 @@ class Response implements \Psr\Http\Message\ResponseInterface, Response\Response
 		return $new;
 	}
 
-	public function withMime($value) {
+	public function withType($value) {
 		$new = clone $this;
 
 		$new->headers[self::CONTENT_TYPE] = Response\ContentType::getInstance()->set($value);
@@ -159,7 +159,7 @@ class Response implements \Psr\Http\Message\ResponseInterface, Response\Response
 		return $new;
 	}
 
-	public function withAddedMime($value) {
+	public function withAddedType($value) {
 		$new = clone $this;
 
 		if( ! array_key_exists(self::CONTENT_TYPE, $new->headers)) {
@@ -190,7 +190,7 @@ class Response implements \Psr\Http\Message\ResponseInterface, Response\Response
 		return $new;
 	}
 
-	public function withoutMime() {
+	public function withoutType() {
 		$new = clone $this;
 		unset($new->headers[self::CONTENT_TYPE]);
 
