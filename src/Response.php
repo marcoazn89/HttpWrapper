@@ -228,7 +228,13 @@ class Response implements \Psr\Http\Message\ResponseInterface, Response\Response
 	public function negotiate($requestedContent, $supportedContent) {
 		$negotiation = array_intersect($requestedContent, $supportedContent);
 
-		return $negotiation;
+		$result = [];
+
+		foreach($negotiation as $support) {
+			$result[] = $support;
+		}
+
+		return $result;
 	}
 
 	public function fail() {
@@ -267,8 +273,17 @@ class Response implements \Psr\Http\Message\ResponseInterface, Response\Response
 
 	public function send() {
 		$this->status->send();
+
 		foreach($this->headers as $header) {
 			$header->send();
 		}
+
+		$body = $this->getBody();
+     if ($body->isAttached()) {
+        $body->rewind();
+        while (!$body->eof()) {
+          echo $body->read(4096);
+        }
+     }
 	}
 }
