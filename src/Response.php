@@ -38,33 +38,50 @@ class Response implements \Psr\Http\Message\ResponseInterface, Response\Response
 		$this->body = new Body(fopen('php://temp', 'r+'));
 	}
 
+	public function withStatus($code, $reasonPhrase = '') {
+		$new = clone $this;
+		$new->status->setCode($code);
+
+		if( ! empty($reasonPhrase)) {
+			$new->status->setMessage($reasonPhrase);
+		}
+
+		return $new;
+	}
+
+	public function getStatusCode() {
+		return $this->status->getCode();
+	}
+
 	/**
-	 * Set an HTTP status code. This is a wrapper for Response\Status
-	 * which can be used on its own.
-	 * @param  int 			$code 		The status code. It is suggested to use constants from
-	 *                        		Response\Status::CODE*
-	 * @param  boolean 	$init 		Send the header right away.
-	 */
-	public function status($code, $init = false) {
-		$this->status = Response\Status::getInstance()->setCode($code);
-	}
-
-	public function protocol($protocol) {
-		Response\Status::getInstance()->setProtocol($protocol);
-	}
-
-	public function message($message) {
-		Response\Response\Status::getInstance()->setMessage($message);
-	}
-
+   * Retrieves the HTTP protocol version as a string.
+   *
+   * The string MUST contain only the HTTP version number (e.g., "1.1", "1.0").
+   *
+   * @return string HTTP protocol version.
+   */
 	public function getProtocolVersion() {
 		return Response\Status::getInstance()->getProtocol();
 	}
 
+	/**
+   * Return an instance with the specified HTTP protocol version.
+   *
+   * The version string MUST contain only the HTTP version number (e.g.,
+   * "1.1", "1.0").
+   *
+   * @param string $version HTTP protocol version
+   * @return self
+   */
 	public function withProtocolVersion($version) {
 		Response\Status::getInstance()->setProtocol($version);
 
 		return clone $this;
+	}
+
+	public function getReasonPhrase() {
+		return $this->status->getMessage();
+
 	}
 
 	public function getHeaders() {
@@ -112,6 +129,22 @@ class Response implements \Psr\Http\Message\ResponseInterface, Response\Response
 		return $new;
 	}
 
+	public function withMime($value) {
+		$new = clone $this;
+
+		$new->headers[self::CONTENT_TYPE] = Response\ContentType::getInstance()->set($value);
+
+		return $new;
+	}
+
+	public function withLanguage($value) {
+		$new = clone $this;
+
+		$new->headers[self::LANGUAGE] = Response\Language::getInstance()->set($value);
+
+		return $new;
+	}
+
 	public function withAddedHeader($name, $value) {
 		$new = clone $this;
 		$header = sprintf('HTTP\Response\%s',$name);
@@ -126,11 +159,83 @@ class Response implements \Psr\Http\Message\ResponseInterface, Response\Response
 		return $new;
 	}
 
+	public function withAddedMime($value) {
+		$new = clone $this;
+
+		if( ! array_key_exists(self::CONTENT_TYPE, $new->headers)) {
+			$new->headers[self::CONTENT_TYPE] = Response\ContentType::getInstance();
+		}
+
+		$new->headers[self::CONTENT_TYPE]->add($value);
+
+		return $new;
+	}
+
+	public function withAddedLanguage($value) {
+		$new = clone $this;
+
+		if( ! array_key_exists(self::LANGUAGE, $new->headers)) {
+			$new->headers[self::LANGUAGE] = Response\ContentType::getInstance();
+		}
+
+		$new->headers[self::LANGUAGE]->add($value);
+
+		return $new;
+	}
+
 	public function withoutHeader($name) {
 		$new = clone $this;
 		unset($new->headers[$name]);
 
 		return $new;
+	}
+
+	public function withoutMime() {
+		$new = clone $this;
+		unset($new->headers[self::CONTENT_TYPE]);
+
+		return $new;
+	}
+
+	public function withoutLanguage() {
+		$new = clone $this;
+		unset($new->headers[self::LANGUAGE]);
+
+		return $new;
+	}
+
+	public function negotiateContentType($strongNegotiation = false) {
+		$negotiation = ContentNegotiation::negotiate(AcceptType::getContent(), TypeSupport::getSupport());
+
+		$content = '';
+
+		if(count($negotiation) > 0) {
+			$content = $negotiation[0];
+		}
+		else {
+			if($strongNegotiation) {
+				$this->fail();
+			}
+			else {
+				$content = TypeSupport::getSupport();
+				$content = $content[0];
+			}
+		}
+
+		return $content;
+	}
+
+	public function fail() {
+		$supported = TypeSupport::getSupport();
+		$clientSupport = AcceptType::getContent();
+
+		$supported = implode(',', $supported);
+		$clientSupport = implode(',',$clientSupport);
+
+		self::status(406);
+		self::contentType(ContentType::TEXT);
+		self::body("NOT SUPPORTED\nThis server does not support {$supported}.\nSupported formats: {$clientSupport}");
+		self::sendResponse();
 	}
 
 	public function body($body) {
@@ -154,109 +259,10 @@ class Response implements \Psr\Http\Message\ResponseInterface, Response\Response
     return $this;
   }
 
-	public function getStatusCode() {
-		return $this->status->getCode();
-	}
-
-	public function withStatus($code, $reasonPhrase = '') {
-		$new = clone $this;
-		$new->status->setCode($code);
-
-		if( ! empty($reasonPhrase)) {
-			$new->status->setMessage($reasonPhrase);
-		}
-
-		return $new;
-	}
-
-	public function getReasonPhrase() {
-		return $this->status->getMessage();
-
-	}
-
 	public function send() {
 		$this->status->send();
 		foreach($this->headers as $header) {
 			$header->send();
 		}
 	}
-
-	/*public static function contentType($contentType, $init = false) {
-		if($init) {
-			Response\ContentType::getInstance()->set($contentType, $init);
-		}
-		else {
-			$content = Response\ContentType::getInstance();
-			$content->set($contentType, $init);
-			self::$headers['type'] = $content;
-		}
-	}
-
-	public static function negotiateContentType($strongNegotiation = false) {
-		$negotiation = ContentNegotiation::negotiate(AcceptType::getContent(), TypeSupport::getSupport());
-
-		$content = '';
-
-		if(count($negotiation) > 0) {
-			$content = $negotiation[0];
-		}
-		else {
-			if($strongNegotiation) {
-				self::fail();
-			}
-			else {
-				$content = TypeSupport::getSupport();
-				$content = $content[0];
-			}
-		}
-
-		return $content;
-	}
-
-	public static function fail($statusCode) {
-		$supported = TypeSupport::getSupport();
-		$clientSupport = AcceptType::getContent();
-
-		$supported = implode(',', $supported);
-		$clientSupport = implode(',',$clientSupport);
-
-		self::status(406);
-		self::contentType(ContentType::TEXT);
-		self::body("NOT SUPPORTED\nThis server does not support {$supported}.\nSupported formats: {$clientSupport}");
-		self::sendResponse();
-	}
-
-	public static function language($language, $init = false) {
-		if($init) {
-			Language::getInstance()->set($language, $init);
-		}
-		else {
-			$lang = Language::getInstance();
-			$lang->set($language, $init);
-			self::$headers['language'] = $lang;
-		}
-	}
-
-	public static function authenticate($auth = array(), $init = false) {
-		if($init) {
-			WWWAuthenticate::getInstance()->set($auth, $init);
-		}
-		else {
-			$authenticate = WWWAuthenticate::getInstance();
-			$authenticate->set($auth, $init);
-			self::$headers['authenticate'] = $authenticate;
-		}
-	}
-
-	public static function cache($cache = null, $init = false) {
-		if($init) {
-			CacheControl::getInstance()->set($cache, $init);
-		}
-		else {
-			$c = CacheControl::getInstance();
-			$c->set($cache, $init);
-			self::$headers['cache'] = $c;
-		}
-	}
-*/
 }
