@@ -266,6 +266,33 @@ class Response implements \Psr\Http\Message\ResponseInterface, Response\Response
 	}
 
 	/**
+	 * Negotiate Mime types
+	 * @param  boolean $strongNegotiation 	Enfore a strong negotiation
+	 * @todo	 Implement weights
+	 * @return [type]                     [description]
+	 */
+	public function withTypeNegotiation($strongNegotiation = false) {
+		$negotiation = array_intersect(Request\AcceptType::getContent(), Support\TypeSupport::getSupport());
+
+		$content = '';
+
+		if(count($negotiation) > 0) {
+			$content = current($negotiation);
+		}
+		else {
+			if($strongNegotiation) {
+				$this->failTypeNegotiation();
+			}
+			else {
+				$content =  Support\TypeSupport::getSupport();
+				$content = $content[0];
+			}
+		}
+
+		return $this->withType($content);
+	}
+
+	/**
    * Return an instance with the specified header appended with the given value.
    *
    * Existing values for the specified header will be maintained. The new
@@ -383,32 +410,6 @@ class Response implements \Psr\Http\Message\ResponseInterface, Response\Response
 		unset($new->headers[self::LANGUAGE]);
 
 		return $new;
-	}
-
-	/**
-	 * Negotiate Mime types
-	 * @param  boolean $strongNegotiation 	Enfore a strong negotiation
-	 * @return [type]                     [description]
-	 */
-	public function negotiateContentType($strongNegotiation = false) {
-		$negotiation = array_intersect(Request\AcceptType::getContent(), Support\TypeSupport::getSupport());
-
-		$content = '';
-
-		if(count($negotiation) > 0) {
-			$content = current($negotiation);
-		}
-		else {
-			if($strongNegotiation) {
-				$this->failTypeNegotiation();
-			}
-			else {
-				$content =  Support\TypeSupport::getSupport();
-				$content = $content[0];
-			}
-		}
-
-		return $content;
 	}
 
 	/**
