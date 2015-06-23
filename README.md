@@ -1,6 +1,6 @@
 Install via Composer
 ---------------------
-	composer require marcoazn89/http-wrapper
+	composer require marcoazn89/http-wrapper:dev-dev
 
 Features
 ---------------------
