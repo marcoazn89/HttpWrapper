@@ -45,7 +45,7 @@ class Response implements \Psr\Http\Message\ResponseInterface, Response\Response
 	 * @return $this        The Response object
 	 */
 	public function bodySize($bytes) {
-		$this->bodySize = 4096;
+		$this->bodySize = $bytes;
 	}
 
 	/**
