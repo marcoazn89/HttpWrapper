@@ -116,7 +116,7 @@ class Status {
 			return $this;
 		}
 		else {
-			throw new E\xception("Unkown HTTP response code {$code}", 1);
+			throw new \InvalidArgumentException("Invalid HTTP status code {$code}");
 		}
 	}
 
