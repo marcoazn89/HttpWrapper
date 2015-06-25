@@ -40,3 +40,23 @@ require '../vendor/autoload.php';
 
 ```
 
+Set limits on what you can support
+---------------------------------
+The order in which you add support matters! This will ignore any Accept
+headers that don't match the supported types.
+```php
+require '../vendor/autoload.php';
+
+use HTTP\Support\TypeSupport;
+use HTTP\Response\ContentType;
+
+// Add content you can support
+TypeSupport::addSupport([
+	ContentType::HTML,
+	ContentType::XML
+]);
+
+// Assume the client sent XML as the accept header, the following output will be
+// in XML form because it was the best match in the supported types
+(new \HTTP\Response())->withTypeNegotiation()->write("<p>Hello World</p>")->send();
+
