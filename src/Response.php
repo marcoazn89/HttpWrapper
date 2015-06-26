@@ -24,16 +24,16 @@ class Response implements \Psr\Http\Message\ResponseInterface, Response\Response
 		$thisClass = new \ReflectionClass(__CLASS__);
 		$allClasses = get_declared_classes();
 
+		// Sync the status code
+		$this->status = Response\Status::getInstance()->getCode();
+
+		// Sync headers
 		foreach($thisClass->getConstants() as $class) {
 			$header = sprintf('HTTP\Response\%s',$class);
 
 			if(in_array($header, $allClasses)) {
 				$this->headers[$class] = $header::getInstance();
 			}
-		}
-
-		if( ! array_key_exists('status', $this->headers)) {
-			$this->status = Response\Status::getInstance()->set();
 		}
 
 		$this->body = new Body(fopen('php://temp', 'r+'));
