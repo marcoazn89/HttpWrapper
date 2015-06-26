@@ -25,7 +25,7 @@ class Response implements \Psr\Http\Message\ResponseInterface, Response\Response
 		$allClasses = get_declared_classes();
 
 		// Sync the status code
-		$this->status = Response\Status::getInstance()->getCode();
+		$this->status = Response\Status::getInstance();
 
 		// Sync headers
 		foreach($thisClass->getConstants() as $class) {
