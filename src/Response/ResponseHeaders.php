@@ -6,4 +6,5 @@ interface ResponseHeaders {
 	const CACHE_CONTROL = 'Cache-Control';
 	const CONTENT_LENGTH = 'Content-Length';
 	const LANGUAGE = 'Language';
+	const ALLOW = 'Allow';
 }
