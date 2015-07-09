@@ -191,6 +191,15 @@ class Response implements \Psr\Http\Message\ResponseInterface, Response\Response
 			case strtolower(self::ALLOW):
 				return Response\Allow::getInstance();
 				break;
+			case strtolower(self::ACCESS_CONTROL_ALLOW_METHODS):
+				return Response\AllowMethods::getInstance();
+				break;
+			case strtolower(self::ACCESS_CONTROL_ALLOW_ORIGIN):
+				return Response\AllowOrigin::getInstance();
+				break;
+			case strtolower(self::ACCESS_CONTROL_ALLOW_HEADERS):
+				return Response\AllowHeaders::getInstance();
+				break;
 			default:
 				throw new \InvalidArgumentException("Invalid HTTP header {$name}");
 		}
