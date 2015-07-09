@@ -68,7 +68,7 @@ abstract class Header {
 	 */
 	final public function send() {
 		if(empty($this->values)) {
-			$this->setDefaults();
+			throw new \Exception("No values were set for header: {$this->getName()}");
 		}
 
 		header("{$this->getName()}: {$this->getString()}");
