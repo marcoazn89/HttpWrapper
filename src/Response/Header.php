@@ -17,6 +17,11 @@ abstract class Header {
 	 */
 	abstract public function getName();
 
+	/**
+	 * Set & override any value(s) of the HTTP header. This doesn't enforce
+	 * any standard values as the developer is allowed to add anything.
+	 * @param HTTP\Response\Header  $value    An instance of the object.
+	 */
 	final public function set($values) {
 		$this->values = is_array($values) ? $values : [$values];
 
