@@ -21,21 +21,7 @@ class Response implements \Psr\Http\Message\ResponseInterface, Response\Response
 	protected $bodySize = 4096;
 
 	public function __construct() {
-		$thisClass = new \ReflectionClass(__CLASS__);
-		$allClasses = get_declared_classes();
-
-		// Sync the status code
-		$this->status = Response\Status::getInstance();
-
-		// Sync headers
-		foreach($thisClass->getConstants() as $class) {
-			$header = sprintf('HTTP\Response\%s',$class);
-
-			if(in_array($header, $allClasses)) {
-				$this->headers[$class] = $header::getInstance();
-			}
-		}
-
+		$this->sync();
 		$this->body = new Body(fopen('php://temp', 'r+'));
 	}
 
@@ -501,6 +487,30 @@ class Response implements \Psr\Http\Message\ResponseInterface, Response\Response
    */
   public function withRedirect($url) {
     return $this->withStatus(302)->withHeader('Location', $url);
+  }
+
+  /**
+   * Sync all objects of type HTTP\Response\Header that were created during
+   * execution of the script with the Response object.
+   * @return self
+   */
+  public function sync() {
+  	$thisClass = new \ReflectionClass(__CLASS__);
+		$allClasses = get_declared_classes();
+
+		// Sync the status code
+		$this->status = Response\Status::getInstance();
+
+		// Sync headers
+		foreach($thisClass->getConstants() as $class) {
+			$header = sprintf('HTTP\Response\%s',$class);
+
+			if(in_array($header, $allClasses)) {
+				$this->headers[$class] = $header::getInstance();
+			}
+		}
+
+		return $this;
   }
 
   /**
