@@ -11,9 +11,11 @@ abstract class Header {
 	//Singleton Pattern: Can't deserialize
 	final protected function __wakeup() {}
 
+	/**
+	 * Return the name of the header in a format that's HTTP compliant
+	 * @return string Name of the header
+	 */
 	abstract public function getName();
-
-	abstract protected function setDefaults();
 
 	final public function set($values) {
 		$this->values = is_array($values) ? $values : [$values];
@@ -21,6 +23,11 @@ abstract class Header {
 		return $this;
 	}
 
+	/**
+	 * Add any value(s) to the HTTP header. This doesn't enforce
+	 * any standard values as the developer is allowed to add anything.
+	 * @param HTTP\Response\Header  $value    An instance of the object.
+	 */
 	final public function add($value) {
 		if( ! is_array($value)) {
 			$value = [$value];
@@ -40,10 +47,18 @@ abstract class Header {
 		return $this;
 	}
 
+	/**
+	 * [getValues description]
+	 * @return [type] [description]
+	 */
 	final public function getValues() {
 		return $this->values;
 	}
 
+	/**
+	 * Return a string representation of the header values
+	 * @return string Header values concatenated by a comma
+	 */
 	final public function getString() {
 		return empty($this->values) ? '' : implode(',', $this->values);
 	}
