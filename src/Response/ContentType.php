@@ -47,8 +47,4 @@ class ContentType extends Header {
 	public function getName() {
 		return 'Content-Type';
 	}
-
-	protected function setDefaults() {
-		$this->values[] = self::HTML;
-	}
 }

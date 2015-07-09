@@ -13,8 +13,4 @@ class Allow extends Header {
 	public function getName() {
 		return 'Allow';
 	}
-
-	protected function setDefaults() {
-		$this->values[] = self::OPTIONS;
-	}
 }

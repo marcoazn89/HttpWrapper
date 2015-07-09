@@ -4,14 +4,14 @@ namespace HTTP\Response;
 class WWWAuthenticate extends Header {
 
 	public $auth = [];
-	public $type = 'Basic';
+	const BASIC = 'Basic';
 
 	/**
 	 * Set the authentication type.
 	 * Default is Basic
 	 * @param String $type
 	 */
-	public function setType($type) {
+	public function setType($type = self::BASIC) {
 		$this->type = $type;
 	}
 
@@ -21,9 +21,5 @@ class WWWAuthenticate extends Header {
 
 	public function getName() {
 		return 'WWW-Authenticate';
-	}
-
-	protected function setDefaults() {
-		$this->values[] = $this->type;
 	}
 }

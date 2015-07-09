@@ -46,8 +46,4 @@ class ContentLength extends Header {
 	public function getName() {
 		return 'Content-Length';
 	}
-
-	protected function setDefaults() {
-		$this->values[] = 0;
-	}
 }

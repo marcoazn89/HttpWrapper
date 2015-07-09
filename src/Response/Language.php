@@ -29,8 +29,4 @@ class Language extends Header {
 	public function getName() {
 		return 'Language';
 	}
-
-	protected function setDefaults() {
-		$this->values[] = self::ENGLISH;
-	}
 }

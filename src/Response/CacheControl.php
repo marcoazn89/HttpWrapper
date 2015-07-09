@@ -20,10 +20,6 @@ class CacheControl extends Header {
 		return 'Cache-Control';
 	}
 
-	protected function setDefaults() {
-		$this->setExpirationType()->setMode();
-	}
-
 	public function setExpirationType($type = self::MAX_AGE, $duration = 3600) {
 		$this->values['expiration'] = "{$type}={$duration}";
 
