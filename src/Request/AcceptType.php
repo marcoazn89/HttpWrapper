@@ -4,7 +4,7 @@ namespace HTTP\Request;
 class AcceptType extends RequestHeader {
 
 	public static function getDefault() {
-		return array('application/xml','text/html','application/xhtml+xml','application/json','text/plain');
+		return array('text/html','application/xhtml+xml','application/xml', 'application/json','text/plain');
 	}
 
 	public static function getHeader() {
