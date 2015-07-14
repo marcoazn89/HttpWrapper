@@ -109,9 +109,9 @@ class Status {
 	}
 
 	public function setCode($code = self::CODE200) {
-		if(array_key_exists($code, $this->status)) {
-			$this->code = $code;
-			$this->message = $this->status[$code];
+		if(array_key_exists($code, $this->status) || is_null($code)) {
+			$this->code = is_null($code) ? 200 : $code;
+			$this->message = $this->status[$this->code];
 
 			return $this;
 		}
