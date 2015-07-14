@@ -79,6 +79,7 @@ class Status {
 		self::CODE416	=> 'Requested Range Not Satisfiable',
 		self::CODE417	=> 'Expectation Failed',
 		self::CODE422	=> 'Unprocessable Entity',
+		429						=>	'Too Many Requests',
 
 		self::CODE500	=> 'Internal Server Error',
 		self::CODE501	=> 'Not Implemented',
