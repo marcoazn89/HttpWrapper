@@ -27,7 +27,7 @@ abstract class RequestHeader {
 	}
 
 	protected static function contentPriority($string) {
-		//sample: "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8" 
+		//sample: "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8"
 		if($string === '*/*') {
 			return static::getDefault();
 		}
