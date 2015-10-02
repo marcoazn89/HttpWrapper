@@ -4,9 +4,6 @@ namespace HTTP\Request;
 abstract class RequestHeader {
 	protected static $content = array();
 
-	abstract public static function getDefault();
-	abstract public static function getHeader();
-	
 	public static function setContent($overrideHeader = false, Array $content = null) {
 		if($overrideHeader) {
 			if(is_null($content)) {
