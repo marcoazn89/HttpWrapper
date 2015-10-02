@@ -4,8 +4,6 @@ namespace HTTP\Support;
 abstract class ContentSupport {
 	protected static $content = array();
 
-	abstract public static function getDefault();
-
 	public static function addSupport(Array $content) {
 		static::$content = $content;
 	}
