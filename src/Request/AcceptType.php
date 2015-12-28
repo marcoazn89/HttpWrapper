@@ -8,6 +8,6 @@ class AcceptType extends RequestHeader {
 	}
 
 	public static function getHeader() {
-		return static::contentPriority($_SERVER['HTTP_ACCEPT']);
+		return static::contentPriority(empty($_SERVER['HTTP_ACCEPT']) ? null : $_SERVER['HTTP_ACCEPT']);
 	}
 }
