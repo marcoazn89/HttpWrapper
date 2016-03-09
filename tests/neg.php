@@ -2,4 +2,4 @@
 
 require '../vendor/autoload.php';
 
-(new \HTTP\Response())->withTypeNegotiation()->write("Test")->send();
+(new \HTTP\Response())->withTypeNegotiation()->write(json_encode(['test']))->send();
