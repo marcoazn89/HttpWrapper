@@ -183,7 +183,7 @@ class Response implements \Psr\Http\Message\ResponseInterface
    */
 	public function getHeaders()
     {
-		return $headers;
+		return $this->headers;
 	}
 
 	/**
