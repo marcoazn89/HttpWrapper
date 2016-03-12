@@ -14,7 +14,7 @@
 
 namespace HTTP;
 
-class Response implements \Psr\Http\Message\ResponseInterface, Response\ResponseHeaders
+class Response implements \Psr\Http\Message\ResponseInterface
 {
     protected $code;
     protected $reason;
