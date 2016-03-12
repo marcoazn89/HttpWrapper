@@ -1,7 +1,8 @@
 <?php
-namespace HTTP\Response;
+namespace HTTP\Header;
 
-class CacheControl extends Header {
+class CacheControl extends Interfaces\Header
+{
 
 	const CACHE_PUBLIC = 'public';
 	const CACHE_PRIVATE = 'private';

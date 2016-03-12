@@ -1,9 +1,14 @@
 <?php
 require '../vendor/autoload.php';
-use \HTTP\Response\Status;
-use \HTTP\Response\CacheControl;
+//use \HTTP\Response\Status;
+//use \HTTP\Response\CacheControl;
 
 // I know, I didn't write proper unit tests, I know...I know...
+
+//$a  = new \HTTP\Response\Allow;
+//die('a'.$a);
+use HTTP\Response;
+die(Response\CacheControl::getName());
 
 $response = new \HTTP\Response();
 

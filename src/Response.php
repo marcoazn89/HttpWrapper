@@ -14,23 +14,80 @@
 
 namespace HTTP;
 
-class Response implements \Psr\Http\Message\ResponseInterface, Response\ResponseHeaders {
-	protected $status = null;
+class Response implements \Psr\Http\Message\ResponseInterface, Response\ResponseHeaders
+{
+    protected $code;
+    protected $reason;
+    protected $protocol;
 	protected $headers = array();
 	protected $body;
 	protected $bodySize = 4096;
 
-	public function __construct() {
-		$this->sync();
+    protected $status = array(
+        200 => 'OK',
+        201 => 'Created',
+        202 => 'Accepted',
+        203 => 'Non-Authoritative Information',
+        204 => 'No Content',
+        205 => 'Reset Content',
+        206 => 'Partial Content',
+
+        300 => 'Multiple Choices',
+        301 => 'Moved Permanently',
+        302 => 'Found',
+        303 => 'See Other',
+        304 => 'Not Modified',
+        305 => 'Use Proxy',
+        307 => 'Temporary Redirect',
+
+        400 => 'Bad Request',
+        401 => 'Unauthorized',
+        403 => 'Forbidden',
+        404 => 'Not Found',
+        405 => 'Method Not Allowed',
+        406 => 'Not Acceptable',
+        407 => 'Proxy Authentication Required',
+        408 => 'Request Timeout',
+        409 => 'Conflict',
+        410 => 'Gone',
+        411 => 'Length Required',
+        412 => 'Precondition Failed',
+        413 => 'Request Entity Too Large',
+        414 => 'Request-URI Too Long',
+        415 => 'Unsupported Media Type',
+        416 => 'Requested Range Not Satisfiable',
+        417 => 'Expectation Failed',
+        422 => 'Unprocessable Entity',
+        429 => 'Too Many Requests',
+
+        500 => 'Internal Server Error',
+        501 => 'Not Implemented',
+        502 => 'Bad Gateway',
+        503 => 'Service Unavailable',
+        504 => 'Gateway Timeout',
+        505 => 'HTTP Version Not Supported'
+    );
+
+	public function __construct()
+    {
+        $this->code = 200;
+        $this->reason = 'Ok';
+        $this->protocol = '1.1';
 		$this->body = new Body(fopen('php://temp', 'r+'));
 	}
+
+    protected function getStatusStr()
+    {
+        return sprintf('HTTP/%s %s %s', $this->protocol, $this->code, $this->reason);
+    }
 
 	/**
 	 * Set the byte limit size for the body response
 	 * @param  int $bytes  	The byte size limit for the body. The default value is 4096
 	 * @return $this        The Response object
 	 */
-	public function bodySize($bytes) {
+	public function bodySize($bytes)
+    {
 		$this->bodySize = $bytes;
 	}
 
@@ -42,8 +99,9 @@ class Response implements \Psr\Http\Message\ResponseInterface, Response\Response
    *
    * @return int Status code.
    */
-	public function getStatusCode() {
-		return $this->status->getCode();
+	public function getStatusCode()
+    {
+		return $this->code;
 	}
 
 	/**
@@ -53,8 +111,9 @@ class Response implements \Psr\Http\Message\ResponseInterface, Response\Response
   * @link http://www.iana.org/assignments/http-status-codes/http-status-codes.xhtml
   * @return string 		Reason phrase or must an empty string if none present.
   */
-	public function getReasonPhrase() {
-		return $this->status->getMessage();
+	public function getReasonPhrase()
+    {
+		return $this->reason;
 
 	}
 
@@ -70,12 +129,14 @@ class Response implements \Psr\Http\Message\ResponseInterface, Response\Response
    * @return self
    * @throws \InvalidArgumentException For invalid status code arguments.
    */
-	public function withStatus($code, $reasonPhrase = '') {
+	public function withStatus($code, $reasonPhrase = '')
+    {
 		$new = clone $this;
-		$new->status->setCode($code);
 
-		if( ! empty($reasonPhrase)) {
-			$new->status->setMessage($reasonPhrase);
+        $new->code = $code;
+
+		if(empty($reasonPhrase)) {
+			$new->reason = $this->status[$code];
 		}
 
 		return $new;
@@ -90,10 +151,13 @@ class Response implements \Psr\Http\Message\ResponseInterface, Response\Response
    * @param string $version HTTP protocol version
    * @return self
    */
-	public function withProtocolVersion($version) {
-		Response\Status::getInstance()->setProtocol($version);
+	public function withProtocolVersion($version)
+    {
+		$new = clone $this;
 
-		return clone $this;
+        $new->protocol = $version;
+
+		return $new;
 	}
 
 	/**
@@ -101,8 +165,9 @@ class Response implements \Psr\Http\Message\ResponseInterface, Response\Response
    *
    * @return string 	HTTP protocol version.
    */
-	public function getProtocolVersion() {
-		return Response\Status::getInstance()->getProtocol();
+	public function getProtocolVersion()
+    {
+		return $this->protocol;
 	}
 
 	/**
@@ -116,11 +181,8 @@ class Response implements \Psr\Http\Message\ResponseInterface, Response\Response
    *
    * @return array Returns an associative array of the message's headers.
    */
-	public function getHeaders() {
-		$headers = [];
-		foreach($this->headers as $key => $header) {
-			$headers[$key] = $header->getValues();
-		}
+	public function getHeaders()
+    {
 		return $headers;
 	}
 
@@ -132,7 +194,8 @@ class Response implements \Psr\Http\Message\ResponseInterface, Response\Response
    *     name using a case-insensitive string comparison. Returns false if
    *     no matching header name is found in the message.
    */
-	public function hasHeader($name) {
+	public function hasHeader($name)
+    {
 		return isset($this->headers[$name]) ? true : false;
 	}
 
@@ -147,8 +210,9 @@ class Response implements \Psr\Http\Message\ResponseInterface, Response\Response
    *    header. If the header does not appear in the message, this method
    *    returns an empty array.
    */
-	public function getHeader($name) {
-		return isset($this->headers[$name]) ? $this->headers[$name]->getValues() : [];
+	public function getHeader($name)
+    {
+		return isset($this->headers[$name]) ? $this->headers[$name] : [];
 	}
 
 	/**
@@ -167,45 +231,9 @@ class Response implements \Psr\Http\Message\ResponseInterface, Response\Response
    *    concatenated together using a comma. If the header does not appear in
    *    the message, this method returns an empty string.
    */
-	public function getHeaderLine($name) {
-		return isset($this->headers[$name]) ? $this->headers[$name]->getString() : '';
-	}
-
-	/**
-	 * Method used to strict header mapping to avoid creating non-standard headers
-	 *
-	 * @param  string $name
-	 * @return \HTTP\Response\Header 		An object of type Header
-	 */
-	protected function mapHeader($name) {
-		switch(strtolower($name)) {
-			case strtolower(self::CACHE_CONTROL):
-				return Response\CacheControl::getInstance();
-				break;
-			case strtolower(self::CONTENT_LENGTH):
-				return Response\ContentLength::getInstance();
-				break;
-			case strtolower(self::CONTENT_TYPE):
-				return Response\ContentType::getInstance();
-				break;
-			case strtolower(self::LANGUAGE):
-				return Response\Language::getInstance();
-				break;
-			case strtolower(self::ALLOW):
-				return Response\Allow::getInstance();
-				break;
-			case strtolower(self::ACCESS_CONTROL_ALLOW_METHODS):
-				return Response\AllowMethods::getInstance();
-				break;
-			case strtolower(self::ACCESS_CONTROL_ALLOW_ORIGIN):
-				return Response\AllowOrigin::getInstance();
-				break;
-			case strtolower(self::ACCESS_CONTROL_ALLOW_HEADERS):
-				return Response\AllowHeaders::getInstance();
-				break;
-			default:
-				throw new \InvalidArgumentException("Invalid HTTP header {$name}");
-		}
+	public function getHeaderLine($name)
+    {
+		return isset($this->headers[$name]) ? implode(',', $this->headers[$name]) : '';
 	}
 
 	/**
@@ -219,11 +247,13 @@ class Response implements \Psr\Http\Message\ResponseInterface, Response\Response
    * @return self
    * @throws \InvalidArgumentException for invalid header names or values.
    */
-	public function withHeader($name, $value) {
+	public function withHeader($name, $value)
+    {
 		$new = clone $this;
-		$header = sprintf('HTTP\Response\%s',$name);
 
-		$new->headers[$name] = $this->mapHeader($name)->set($value);
+        $new->headers[$name] = [];
+
+		$new->headers[$name][] = $value;
 
 		return $new;
 	}
@@ -239,10 +269,13 @@ class Response implements \Psr\Http\Message\ResponseInterface, Response\Response
    * @return self
    * @throws \InvalidArgumentException for invalid header names or values.
    */
-	public function withType($value) {
+	public function withType($value)
+    {
 		$new = clone $this;
 
-		$new->headers[self::CONTENT_TYPE] = Response\ContentType::getInstance()->set($value);
+        $new->headers[Header\ContentType::name()] = [];
+
+		$new->headers[Header\ContentType::name()][] = $value;
 
 		return $new;
 	}
@@ -258,10 +291,13 @@ class Response implements \Psr\Http\Message\ResponseInterface, Response\Response
    * @return self
    * @throws \InvalidArgumentException for invalid header names or values.
    */
-	public function withLanguage($value) {
+	public function withLanguage($value)
+    {
 		$new = clone $this;
 
-		$new->headers[self::LANGUAGE] = Response\Language::getInstance()->set($value);
+        $new->headers[Header\Language::name()] = [];
+
+		$new->headers[Header\Language::name()][] = $value;
 
 		return $new;
 	}
@@ -272,7 +308,8 @@ class Response implements \Psr\Http\Message\ResponseInterface, Response\Response
 	 * @todo	 Implement weights
 	 * @return [type]                     [description]
 	 */
-	public function withTypeNegotiation($strongNegotiation = false) {
+	public function withTypeNegotiation($strongNegotiation = false)
+    {
 		$negotiation = array_intersect(Request\AcceptType::getContent(), Support\TypeSupport::getSupport());
 
 		$content = '';
@@ -305,16 +342,15 @@ class Response implements \Psr\Http\Message\ResponseInterface, Response\Response
    * @return self
    * @throws \InvalidArgumentException for invalid header names or values.
    */
-	public function withAddedHeader($name, $value) {
+	public function withAddedHeader($name, $value)
+    {
 		$new = clone $this;
-		$header = sprintf('HTTP\Response\%s',$name);
-		$header = $this->mapHeader($name);
 
-		if( ! array_key_exists($name, $new->headers)) {
-			$new->headers[$name] = $header;
-		}
+        if (empty($new->headers[$name])) {
+            $new->headers[$name] = [];
+        }
 
-		$new->headers[$name]->add($value);
+        $new->headers[$name][] = $value;
 
 		return $new;
 	}
@@ -331,15 +367,15 @@ class Response implements \Psr\Http\Message\ResponseInterface, Response\Response
    * @return self
    * @throws \InvalidArgumentException for invalid header names or values.
    */
-	public function withAddedType($value) {
+	public function withAddedType($value)
+    {
 		$new = clone $this;
 
-		if( ! array_key_exists(self::CONTENT_TYPE, $new->headers)) {
-			$new->headers[self::CONTENT_TYPE] = Response\ContentType::getInstance();
-		}
+		if (empty($new->headers[Header\ContentType::name()])) {
+            $new->headers[Header\ContentType::name()] = [];
+        }
 
-		$new->headers[self::CONTENT_TYPE]->add($value);
-
+        $new->headers[Header\ContentType::name()][] = $value;
 		return $new;
 	}
 
@@ -355,14 +391,15 @@ class Response implements \Psr\Http\Message\ResponseInterface, Response\Response
    * @return self
    * @throws \InvalidArgumentException for invalid header names or values.
    */
-	public function withAddedLanguage($value) {
+	public function withAddedLanguage($value)
+    {
 		$new = clone $this;
 
-		if( ! array_key_exists(self::LANGUAGE, $new->headers)) {
-			$new->headers[self::LANGUAGE] = Response\ContentType::getInstance();
-		}
+		if (empty($new->headers[Header\Language::name()])) {
+            $new->headers[Header\Language::name()] = [];
+        }
 
-		$new->headers[self::LANGUAGE]->add($value);
+        $new->headers[Header\Language::name()][] = $value;
 
 		return $new;
 	}
@@ -375,7 +412,8 @@ class Response implements \Psr\Http\Message\ResponseInterface, Response\Response
    * @param string $name Case-insensitive header field name to remove.
    * @return self
    */
-	public function withoutHeader($name) {
+	public function withoutHeader($name)
+    {
 		$new = clone $this;
 		unset($new->headers[$name]);
 
@@ -390,9 +428,10 @@ class Response implements \Psr\Http\Message\ResponseInterface, Response\Response
    * @param string $name Case-insensitive header field name to remove.
    * @return self
    */
-	public function withoutType() {
+	public function withoutType()
+    {
 		$new = clone $this;
-		unset($new->headers[self::CONTENT_TYPE]);
+		unset($new->headers[Header\ContentType::name()]);
 
 		return $new;
 	}
@@ -406,9 +445,10 @@ class Response implements \Psr\Http\Message\ResponseInterface, Response\Response
    * @param string $name Case-insensitive header field name to remove.
    * @return self
    */
-	public function withoutLanguage() {
+	public function withoutLanguage()
+    {
 		$new = clone $this;
-		unset($new->headers[self::LANGUAGE]);
+		unset($new->headers[Header\Language::name()]);
 
 		return $new;
 	}
@@ -416,7 +456,8 @@ class Response implements \Psr\Http\Message\ResponseInterface, Response\Response
 	/**
 	 * Send a 406 response for failed content negotiation
 	 */
-	protected function failTypeNegotiation() {
+	protected function failTypeNegotiation()
+    {
 		$supported =  Request\TypeSupport::getSupport();
 		$clientSupport =  Request\AcceptType::getContent();
 
@@ -426,7 +467,7 @@ class Response implements \Psr\Http\Message\ResponseInterface, Response\Response
 		$this->withStatus(406)->withType(Response\ContentType::TEXT)
 		->write("NOT SUPPORTED\nThis server does not support {$supported}.\nSupported formats: {$clientSupport}")
 		->send();
-		exit;
+		exit(1);
 	}
 
 	/**
@@ -434,7 +475,8 @@ class Response implements \Psr\Http\Message\ResponseInterface, Response\Response
    *
    * @return StreamInterface 	Returns the body as a stream.
    */
-	public function getBody() {
+	public function getBody()
+    {
 		return $this->body;
 	}
 
@@ -447,7 +489,8 @@ class Response implements \Psr\Http\Message\ResponseInterface, Response\Response
    * @return self
    * @throws \InvalidArgumentException When the body is not valid.
    */
-	public function withBody(\Psr\Http\Message\StreamInterface $body) {
+	public function withBody(\Psr\Http\Message\StreamInterface $body)
+    {
 		$new = clone $this;
 		$new->body = $body;
 
@@ -459,88 +502,70 @@ class Response implements \Psr\Http\Message\ResponseInterface, Response\Response
 	 * @param  mixed $data 		Data to be added to the body
 	 * @return Response     	The Response object
 	 */
-	public function write($data) {
-    $this->getBody()->write($data);
+	public function write($data)
+    {
+        $this->getBody()->write($data);
 
-    return $this;
-  }
+        return $this;
+    }
 
-  /**
+    /**
 	 * Write content to the stream by overwriting existing content
 	 * @param  mixed $data 		Data to be written to the body
 	 * @return Response     	The Response object
 	 */
-  public function overwrite($data) {
-  	$body = $this->getBody();
-    $body->rewind();
-    $body->write($data);
-
-    return $this;
-  }
-
-  /**
-   * Write Json content and overwrite existant content if any. This method
-   * enforces the use of key-valued json structures
-   * @param  array $value 	The array to be converted to json
-   * @return Response       The response object
-   */
-  public function writeJson(array $value) {
-  	return $this->overwrite(json_encode($value))->withType('application/json;charset=utf-8');
-  }
-
-  /**
-   * Redirect.
-   *
-   * This method prepares the response object to return an HTTP Redirect
-   * response to the client.
-   *
-   * @param  string $url    The redirect destination.
-   * @return self
-   */
-  public function withRedirect($url) {
-    return $this->withStatus(302)->withHeader('Location', $url);
-  }
-
-  /**
-   * Sync all objects of type HTTP\Response\Header that were created during
-   * execution of the script with the Response object.
-   * @return self
-   */
-  public function sync() {
-  	$thisClass = new \ReflectionClass(__CLASS__);
-		$allClasses = get_declared_classes();
-
-		// Sync the status code
-		$this->status = Response\Status::getInstance();
-
-		// Sync headers
-		foreach($thisClass->getConstants() as $class) {
-			$header = sprintf('HTTP\Response\%s',$class);
-
-			if(in_array($header, $allClasses)) {
-				$this->headers[$class] = $header::getInstance();
-			}
-		}
-
-		return $this;
-  }
-
-  /**
-   * Send the Response object over the wire
-   */
-	public function send() {
-		$this->status->send();
-
-		foreach($this->headers as $header) {
-			$header->send();
-		}
-
-		$body = $this->getBody();
-     if ($body->isAttached()) {
+    public function overwrite($data)
+    {
+        $body = $this->getBody();
         $body->rewind();
-        while (!$body->eof()) {
-          echo $body->read($this->bodySize);
+        $body->write($data);
+
+        return $this;
+    }
+
+    /**
+     * Write Json content and overwrite existant content if any. This method
+     * enforces the use of key-valued json structures
+     * @param  array $value 	The array to be converted to json
+     * @return Response       The response object
+     */
+    public function writeJson(array $value)
+    {
+        return $this->overwrite(json_encode($value))->withType('application/json;charset=utf-8');
+    }
+
+    /**
+     * Redirect.
+     *
+     * This method prepares the response object to return an HTTP Redirect
+     * response to the client.
+     *
+     * @param  string $url    The redirect destination.
+     * @return self
+     */
+    public function withRedirect($url)
+    {
+        return $this->withStatus(302)->withHeader('Location', $url);
+    }
+
+    /**
+     * Send the Response object over the wire
+     */
+    public function send()
+    {
+        header($this->getStatusStr());
+
+        foreach($this->headers as $header => $value) {
+            header(sprintf("%s: %s", $header, implode(',', $value)));
         }
-     }
-	}
+
+        $body = $this->getBody();
+
+        if ($body->isAttached()) {
+            $body->rewind();
+            while (!$body->eof()) {
+                echo $body->read($this->bodySize);
+            }
+        }
+    }
 }

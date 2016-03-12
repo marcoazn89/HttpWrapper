@@ -9,8 +9,4 @@ class Allow extends Header {
 	const PATCH = 'patch';
 	const OPTIONS = 'options';
 	const HEAD = 'head';
-
-	public function getName() {
-		return 'Allow';
-	}
 }
